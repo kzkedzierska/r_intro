@@ -1,0 +1,63 @@
+---
+title: "Introduction to R"
+author: "Katarzyna Kedzierska"
+date: "5 August 2019"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+---
+
+```{r xaringan-themer, include = FALSE}
+library(xaringanthemer)
+mono_light(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Droid Mono")
+)
+```
+
+# Beginnings
+
+## Using R as calclator
+
+```{r}
+2 + 7
+```
+
+smoething more complicated
+
+```{r}
+1234 * 5678 ^ 9
+```
+
+or really, really complex ;) 
+![](maxresdefault.jpg)
+
+```{r}
+6 / 2 * (1 + 2) 
+```
+
+--- 
+and last one
+
+![](https://i1.wp.com/mindyourdecisions.com/blog/wp-content/uploads/2019/07/viral-meme-230-preview-600.png)
+```{r}
+230 - 220 * 0.5 # == 5 ?
+```
+
+## Variable Assignment
+
+Let's save the value of 1 to a variable `x` and 2 to a variable `y`. We will use two different ways of variable assignment.
+```{r}
+x <- 1
+y = 2
+```
+
+Let's check if we were successful.
+
+```{r}
+x + y
+```
+
