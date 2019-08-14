@@ -1,0 +1,344 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Last meeting reminder
+## Numbers 
+
+```{r}
+my_first_number <- 1
+my_second_number = 2
+```
+
+## Vectors
+
+```{r}
+dbl_vector <- c(1, 2, 3, 4) # double = numeric
+int_vector <- c(2L, 4L, 6L, 8L) # integer (integers require less storage space)
+chr_vector <- c("this", "is", "a", "character", "vector")
+log_vector <- c(TRUE, FALSE, TRUE, T, F) # logical
+```
+
+```{r}
+this_and_that <- c("this", "that", "this", "this", "that")
+fct_vector <- as.factor(this_and_that)
+```
+
+What happens if we put different types of variables in one vector?
+
+```{r}
+comb_vect <- c(chr_vector, int_vector)
+# comb_vect ?
+```
+
+---
+
+## Lists
+
+```{r}
+my_list <- list(first_element = log_vector,
+                second = chr_vector,
+                int_vector)
+my_list
+```
+
+### Matrices
+
+Matrices are just tables with rows and columns. 
+
+```{r}
+my_matrix <- matrix(1:10, nrow = 2, ncol = 5, 
+                    dimnames = list(paste0("row_", 1:2),
+                                    paste0("column_", 1:5)))
+my_matrix
+```
+
+### Data frames
+
+```{r}
+my_df <- data.frame(column_1 = int_vector,
+                    column_2 = c("yes", "no", "yes", "yes"),
+                    row.names = paste0("row_", 1:4),
+                    stringsAsFactors = FALSE)
+my_df
+```
+
+## Operations
+
+#### Subsetting 
+
+```{r}
+chr_vector[3]
+```
+
+```{r}
+dbl_vector[1:3]
+```
+
+```{r}
+chr_vector[c(1,4)]
+```
+
+```{r}
+dbl_vector == c(1, 2, 3)
+```
+
+```{r}
+chr_vector
+```
+
+```{r}
+chr_vector[c(TRUE, FALSE)]
+```
+
+## Excecise
+
+Given a vector `nums` with numbers from 1 to 20, access the numbers divisible by 5.
+
+```{r}
+nums <- 1:20
+```
+
+```{r}
+# get the numbers divisible by 5
+```
+
+We can also create named vectors.
+
+```{r}
+my_first_named_vector <- 1:10
+names(my_first_named_vector) <- paste0("position_", 1:10)
+```
+
+and then access them by names.
+
+```{r}
+my_first_named_vector['position_1']
+```
+
+```{r}
+my_first_named_vector[1]
+```
+
+
+### Lists
+
+Remember the list we created earlier?
+
+```{r}
+my_list
+```
+
+To access the elements, we can call them by names
+
+```{r}
+my_list$second
+```
+
+or by partial match :o
+
+```{r}
+my_list$f
+```
+
+or by positions.
+
+```{r}
+my_list[[3]]
+```
+
+### Matrices
+
+```{r}
+my_matrix
+```
+By coordinates
+
+```{r}
+# get elemnt in row 1 and column 2
+my_matrix[1, 2]
+```
+
+```{r}
+# get column 5
+my_matrix[, 5]
+```
+
+or by names.
+
+```{r}
+my_matrix['row_2', 'column_3']
+```
+
+When checking conitions, the otput will have the same shape.
+
+```{r}
+my_matrix > 1
+```
+
+### Data frames
+
+```{r}
+my_df
+```
+By coordinates
+
+```{r}
+# get elemnt in row 1 and column 2
+my_df[1, 2]
+```
+
+```{r}
+# get column 2
+my_df[, 2]
+```
+
+
+or by names 
+
+```{r}
+my_df['row_2', 'column_1']
+```
+
+```{r}
+my_df$column_2
+```
+
+
+### Excercise
+
+Given the experssion data in a matrix `mat` get the values greater than 3.
+
+```{r}
+set.seed(7)
+mat <- matrix(runif(50, 0, 100), nrow = 10, ncol = 5, 
+                    dimnames = list(paste0("gene_", LETTERS[1:10]),
+                                    paste0("sample_", 1:5)))
+
+```
+
+```{r}
+# get the values greater than 3
+
+```
+
+Can you say for which genes and for which samples those values were reached?
+
+# Functions
+
+What is a function?
+```{r}
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+library(tidyverse)
+df <- data.frame(x = -100:100, 
+                 y = (-100:100)^2)
+
+ggplot(df, aes(x, y)) + 
+  geom_point() +
+  geom_smooth() + 
+  theme_classic()
+```
+
+```{r}
+#' Get the square of a value x
+#' @param x vector, values to be squared
+#' @return y vector, values squared
+x_square <- function(x) {
+  x^2
+}
+```
+
+```{r}
+x_square(2)
+```
+
+```{r}
+x_square(1:5)
+```
+
+```{r}
+x_ <- -100:100
+df <- data.frame(x = x_, 
+                 y = x_square(x_))
+
+ggplot(df, aes(x, y)) + 
+  geom_point() +
+  geom_smooth() + 
+  theme_classic()
+```
+
+## Excercises
+
+Write a function `my_fun` that will take two arguments - a vector and a nnumber and return the multiplication of this number and this vector.
+```{r}
+my_fun <- function() {
+  
+}
+```
+
+Write a function `my_fun2` that will take two arguments - a vector and a number and:
+* add the number to elemnts at odd postiions of your vector
+* mutliply the elements at even positions of your vector
+* raise the whole vector to the power of that number
+
+```{r}
+my_fun2 <- function() {
+  
+}
+```
+
+## Useful functions?
+
+### Utilty
+```{r}
+c(1:10, 2, 11)
+list(mat_ = mat,
+     df_ = my_df)
+as.data.frame(mat)
+is.numeric(chr_vector)
+```
+
+### Maths
+
+```{r}
+mean(1:10)
+sum(3, 4)
+min(dbl_vector)
+max(dbl_vector)
+```
+
+### Stats
+
+```{r}
+TeaTasting <- matrix(c(3, 1, 1, 3),
+                     nrow = 2,
+                     dimnames = list(Guess = c("Milk", "Tea"),
+                                     Truth = c("Milk", "Tea")))
+TeaTasting
+fisher.test(TeaTasting, alternative = "greater")
+```
+
+### Logical
+
+```{r}
+log_vector
+all(log_vector)
+any(log_vector)
+```
+
+### Excercise
+
+Remember the expression matrix `mat` from earlier? Calculate `median`, `max` and `min` values for `sample_5` and `gene_C`.
+
+```{r}
+# sample_5
+
+```
+
+```{r}
+# gene_C
+
+```

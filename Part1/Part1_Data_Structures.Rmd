@@ -329,13 +329,34 @@ What happens if we put different types of variables in one vector?
 
 ```{r}
 # create a vector (comb_vect) that will be a combination of logical and character vector
-
+comb_vect <- c()
 ```
 
 Let's see how it looks like
 
 ```{r}
-print(comb_vect)
+ print(comb_vect)
+```
+
+what's its type?
+
+```{r}
+typeof(comb_vect)
+```
+
+
+---
+What happens if we put different types of variables in one vector?
+
+```{r}
+# create a vector (comb_vect) that will be a combination of logical and character vector
+comb_vect <- c(log_vector, chr_vector)
+```
+
+Let's see how it looks like
+
+```{r}
+ print(comb_vect)
 ```
 
 what's its type?
@@ -346,7 +367,8 @@ typeof(comb_vect)
 
 Out of curiosity, try another combination.
 
---- 
+---
+
 ### Lists
 
 List is just a collection of many things and types. We can store a lot of thins in lists. 
@@ -395,7 +417,7 @@ my_df2 <- as.data.frame(my_matrix)
 my_df2
 ```
 
---- 
+---
 
 ## Operations
 
@@ -458,11 +480,11 @@ names(my_first_named_vector) <- paste0("position_", 1:10)
 and then access them by names.
 
 ```{r}
-my_first_named_vector$position_11
+my_first_named_vector['position_1']
 ```
 
 ```{r}
-my_first_named_vector[11]
+my_first_named_vector[1]
 ```
 
 ---
@@ -474,7 +496,6 @@ Remember the list we created earlier?
 ```{r}
 my_list
 ```
-
 
 To access the elements, we can call them by names
 

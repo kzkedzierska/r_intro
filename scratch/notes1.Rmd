@@ -1,0 +1,38 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+my_first_number <- 1
+my_second_number = 2
+```
+
+```{r}
+my_first_number
+```
+```{r}
+print(my_first_number)
+```
+
+```{r}
+dbl_vector <- c(1, 2, 3, 4) # double = numeric
+int_vector <- c(2L, 4L, 6L, 8L) # integer (integers require less storage space)
+chr_vector <- c("this", "is", "a", "character", "vector")
+log_vector <- c(TRUE, FALSE, TRUE, T, F) # logical
+```
+
+```{r}
+print(chr_vector)
+```
+
+```{r}
+dbl_vector2 <- c(1, c(2, c(3, c(4))))
+dbl_vector2
+```
+```{r}
+dbl_vector
+```
+```{r}
+dbl_vector <- c(1, 2, 3)
+```
+
