@@ -25,6 +25,14 @@ this_and_that <- c("this", "that", "this", "this", "that")
 fct_vector <- as.factor(this_and_that)
 ```
 
+```{r}
+chr_vector2 <- c(sample(x = this_and_that, 1000000, replace = TRUE), "other")
+chr_vector2
+fct_vector2 <- as.factor(chr_vector2)
+fct_vector2
+```
+
+
 What happens if we put different types of variables in one vector?
 
 ```{r}
@@ -78,6 +86,8 @@ dbl_vector[1:3]
 
 ```{r}
 chr_vector[c(1,4)]
+
+chr_vector[c(TRUE, FALSE, FALSE, TRUE, FALSE)]
 ```
 
 ```{r}
@@ -163,6 +173,8 @@ my_matrix[1, 2]
 ```{r}
 # get column 5
 my_matrix[, 5]
+# get columns 2 and 4
+my_matrix[, c(2,4)]
 ```
 
 or by names.
@@ -208,7 +220,7 @@ my_df$column_2
 
 ### Excercise
 
-Given the experssion data in a matrix `mat` get the values greater than 3.
+Given the experssion data in a matrix `mat` get the values greater than 80.
 
 ```{r}
 set.seed(7)
@@ -219,8 +231,8 @@ mat <- matrix(runif(50, 0, 100), nrow = 10, ncol = 5,
 ```
 
 ```{r}
-# get the values greater than 3
-
+# get the values greater than 80
+mat[mat > 80]
 ```
 
 Can you say for which genes and for which samples those values were reached?
@@ -274,9 +286,13 @@ ggplot(df, aes(x, y)) +
 
 Write a function `my_fun` that will take two arguments - a vector and a nnumber and return the multiplication of this number and this vector.
 ```{r}
-my_fun <- function() {
-  
+
+my_fun <- function(vect, numb = 9) {
+  numb * vect
 }
+vect_ <- 1:10
+numb <- 7
+my_fun(vect = vect_)
 ```
 
 Write a function `my_fun2` that will take two arguments - a vector and a number and:
@@ -285,9 +301,13 @@ Write a function `my_fun2` that will take two arguments - a vector and a number 
 * raise the whole vector to the power of that number
 
 ```{r}
-my_fun2 <- function() {
-  
+my_fun2 <- function(vect, numb) {
+  vect[c(TRUE, FALSE)] <- vect[c(TRUE, FALSE)] + numb
+  vect[c(FALSE, TRUE)] <- vect[c(FALSE, TRUE)] * numb
+  vect ^ numb
 }
+
+my_fun2(1:4, 2)
 ```
 
 ## Useful functions?

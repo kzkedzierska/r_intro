@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Introduction to R - Part 3 Flow</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Katarzyna Kedzierska" />
+    <meta name="date" content="2019-08-21" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to R - Part 3 Flow
+### Katarzyna Kedzierska
+### 21 August 2019
+
+---
+
+
+
+
+
+
+# Last meeting reminder
+
+Write a function `my_fun2` that will take two arguments - a vector and a number and:
+* add the number to elemnts at odd postiions of your vector
+* mutliply the elements at even positions of your vector
+* raise the whole vector to the power of that number
+
+
+```r
+my_fun2 &lt;- function(vec, numb) {
+  vec2 &lt;- vec
+  vec2[1:length(vec2) %% 2 == 1] &lt;- vec2[1:length(vec2) %% 2 == 1] + numb
+  vec2[1:length(vec2) %% 2 == 0] &lt;- vec2[1:length(vec2) %% 2 == 0] * numb
+  vec2 ^ numb
+}
+```
+
+
+```r
+my_fun2(1:5, 2)
+```
+
+```
+## [1]  9 16 25 64 49
+```
+
+---
+
+# Controlling the flow
+## Logic in R
+
+Before we will learn about the logic let's define a couple useful vectors.
+
+```r
+vec1 &lt;- c(TRUE, FALSE, TRUE, TRUE)
+vec2 &lt;- rep(TRUE, 4)
+```
+
+Logical operators in R:
+
+`TRUE`, `FALSE` are respectively equal to 1 and 0;
+
+```r
+TRUE + FALSE
+```
+
+```
+## [1] 1
+```
+
+```r
+sum(vec1)
+```
+
+```
+## [1] 3
+```
+---
+`R` has two operators for **and**: `&amp;`, `&amp;&amp;` means both values have to be true for it to be true;
+
+`&amp;` performs elementwise operations.
+
+```r
+vec1 &amp; vec2
+```
+
+```
+## [1]  TRUE FALSE  TRUE  TRUE
+```
+Remember about the `R` recycling!
+
+```r
+vec1 &amp; c(TRUE, FALSE)
+```
+
+```
+## [1]  TRUE FALSE  TRUE FALSE
+```
+In turn, `&amp;&amp;` only performs the comparison from left to right.
+
+```r
+vec1 &amp;&amp; vec2
+```
+
+```
+## [1] TRUE
+```
+or until condition is satisfied
+
+```r
+TRUE &amp;&amp; TRUE &amp;&amp; FALSE &amp;&amp; TRUE
+```
+
+```
+## [1] FALSE
+```
+---
+Similarily, `R` has two opperands for **or**: `|`, `||` means either value has to be true for it to be true;  
+
+
+```r
+vec1 | vec2
+```
+
+```
+## [1] TRUE TRUE TRUE TRUE
+```
+vs.
+
+```r
+vec1 || vec2
+```
+
+```
+## [1] TRUE
+```
+
+```r
+TRUE || FALSE || TRUE || TRUE || TRUE
+```
+
+```
+## [1] TRUE
+```
+---
+To negate the value use `!`
+
+```r
+!TRUE
+```
+
+```
+## [1] FALSE
+```
+
+```r
+!vec1
+```
+
+```
+## [1] FALSE  TRUE FALSE FALSE
+```
+---
+Comparisons: 
+* `==` - equal to
+
+```r
+TRUE == FALSE
+```
+
+```
+## [1] FALSE
+```
+* `!=` - not equal to
+
+```r
+vec1 != vec2
+```
+
+```
+## [1] FALSE  TRUE FALSE FALSE
+```
+---
+* `&lt;` and `&lt;=` - smaller, smaller or equal to
+
+```r
+2 &lt; 4
+```
+
+```
+## [1] TRUE
+```
+
+
+```r
+5 &lt;= 5
+```
+
+```
+## [1] TRUE
+```
+* `&gt;` and `&gt;=` - greater, greater and equal to
+
+```r
+5 &gt; 1
+```
+
+```
+## [1] TRUE
+```
+
+
+```r
+5 &gt;= 5
+```
+
+```
+## [1] TRUE
+```
+---
+`xor()` - returns `TRUE` when only one value equal to `TRUE`, accepts only 2 arguments;
+
+```r
+xor(TRUE, FALSE)
+```
+
+```
+## [1] TRUE
+```
+
+
+```r
+xor(TRUE, TRUE)
+```
+
+```
+## [1] FALSE
+```
+---
+`any()` - returns `TRUE` when **at least one** value equal to `TRUE`;
+
+```r
+any(vec1)
+```
+
+```
+## [1] TRUE
+```
+
+`all()` - returns `TRUE` when **all** values equal to `TRUE`;
+
+```r
+all(vec1)
+```
+
+```
+## [1] FALSE
+```
+---
+`isTRUE()`, `isFALSE()` - checks if values `TRUE` or `FALSE` respectively.
+
+```r
+isTRUE(TRUE)
+```
+
+```
+## [1] TRUE
+```
+but, it only will report true if presented with `TRUE` value.
+
+
+```r
+isTRUE(vec2)
+```
+
+```
+## [1] FALSE
+```
+
+---
+## Controlling the flow
+
+`if()` - given certain condition, perform an action
+
+
+```r
+if (TRUE) {
+  print("Action performed when TRUE.")
+}
+```
+
+```
+## [1] "Action performed when TRUE."
+```
+
+`else` - when statement in `if` not true
+
+
+```r
+if (FALSE) {
+  print("This will not be printed.")
+} else {
+  print("But this will.")
+}
+```
+
+```
+## [1] "But this will."
+```
+---
+  
+Let's have some fun
+
+
+```r
+input &lt;- readline("Hiya! What's your name? ")
+
+if (input != "") {
+  print(paste0("Hi ", input, ". Nice to meet you! :)"))
+} else {
+  print("Don't be shy!")
+}
+```
+---
+But what if we want to test multiple conditions? `else if` is the answer.
+
+
+```r
+input &lt;- as.numeric(readline("Please, provide a number greater than 0: "))
+
+if (input &gt; 0) {
+  print("Thanks!")
+} else if (input == 0) {
+  print("Zero is not greater than zero, it's equal!")
+} else {
+  print("C'mon, you can do better!")
+}
+```
+
+---
+**Excercise**
+Write the chunk of code that will test if an number is odd (print "It's an odd number!"), divisible by 6 (print "It's a number divisible by 6!") or odd not divisible by 3 ("It's an even number, not divisible by 3."). Test the code on a random number.
+
+
+```r
+number &lt;- sample(1:100, 1)
+print(number)
+```
+
+```
+## [1] 80
+```
+
+```r
+# your code goes here
+```
+
+---
+**Excercise**
+Write the chunk of code that will test if an number is odd (print "It's an odd number!"), divisible by 6 (print "It's a number divisible by 6!") or odd not divisible by 3 ("It's an even number, not divisible by 3."). Test the code on a random number.
+
+
+```r
+number &lt;- sample(1:100, 1)
+print(number)
+```
+
+```
+## [1] 95
+```
+
+```r
+if (number %% 2 == 1) {
+  print("It's an odd number!")
+} else if (number %% 3 == 0) {
+  print("It's a number divisible by 6!")
+} else {
+  print("It's an even number, not divisible by 3.")
+}
+```
+
+```
+## [1] "It's an odd number!"
+```
+
+---
+`if` works with single `TRUE` or `FALSE` value. Ther is a vectorised version though! `ifelse`!
+
+
+```r
+print(vec1)
+```
+
+```
+## [1]  TRUE FALSE  TRUE  TRUE
+```
+
+
+```r
+ifelse(vec1, 
+       "this is what is assigned when TRUE", 
+       "and this when FALSE")
+```
+
+```
+## [1] "this is what is assigned when TRUE"
+## [2] "and this when FALSE"               
+## [3] "this is what is assigned when TRUE"
+## [4] "this is what is assigned when TRUE"
+```
+---
+**Excercise**
+Write the chunk of code that will test if an number is odd (print "It's an odd number!"), divisible by 6 (print "It's a number divisible by 6!") or odd not divisible by 3 ("It's an even number, not divisible by 3."). Test the code on a random number. &lt;- This, but using `ifelse`
+
+
+```r
+numbers &lt;- sample(1:100, 5)
+print(numbers)
+```
+
+```
+## [1] 61 95  6 42 66
+```
+
+---
+**Excercise**
+Write the chunk of code that will test if an number is odd (print "It's an odd number!"), divisible by 6 (print "It's a number divisible by 6!") or odd not divisible by 3 ("It's an even number, not divisible by 3."). Test the code on a random number. &lt;- This, but using `ifelse`
+
+
+```r
+numbers &lt;- sample(1:100, 5)
+print(numbers)
+```
+
+```
+## [1] 11 29 23 42 38
+```
+
+```r
+ifelse(numbers %% 2 == 1,
+       "It's an odd number!",
+       ifelse(numbers %% 3 == 0, 
+              "It's a number divisible by 6!",
+              "It's an even number, not divisible by 3."))
+```
+
+```
+## [1] "It's an odd number!"                     
+## [2] "It's an odd number!"                     
+## [3] "It's an odd number!"                     
+## [4] "It's a number divisible by 6!"           
+## [5] "It's an even number, not divisible by 3."
+```
+
+---
+### Loops: for and while
+
+Those statements allow us to repeat a certain procedure over an iteration of sorts. For example, let's say that for every odd number lower than 10 we would want to learn the value of this number taken to the power of 3. We can do it like this:
+
+
+```r
+c(1:10)[c(TRUE, FALSE)]^3
+```
+
+```
+## [1]   1  27 125 343 729
+```
+
+But, with `for` loop, we can do it like this:
+
+
+```r
+for (n in 1:10) { 
+  if (n %% 2 == 1) {
+    print(n ^ 3) # what will happen without print?
+  }
+}
+```
+
+```
+## [1] 1
+## [1] 27
+## [1] 125
+## [1] 343
+## [1] 729
+```
+
+
+---
+Let's get the sum of all of the above!
+
+
+```r
+sum_of_cubes &lt;- 0
+for (n in seq(1, 10, 2)) { 
+  sum_of_cubes = sum_of_cubes + n ^ 3
+}
+
+print(sum_of_cubes)
+```
+
+```
+## [1] 1225
+```
+
+Any alternative for the above loop?
+
+---
+
+```r
+sum_of_cubes &lt;- 0
+for (n in seq(1, 10, 2)) { 
+  sum_of_cubes = sum_of_cubes + n ^ 3
+}
+
+print(sum_of_cubes)
+```
+
+```
+## [1] 1225
+```
+
+Any alternative for the above loop?
+
+
+```r
+sum_of_cubes &lt;- sum(seq(1, 10, 2)^3)
+```
+---
+`while` loop executes until it is interupted.
+
+
+```r
+i &lt;- 10
+while (i &lt; 100) {
+  i = i + i 
+  print(i)
+}
+```
+
+```
+## [1] 20
+## [1] 40
+## [1] 80
+## [1] 160
+```
+
+`break` will break the loop
+
+
+```r
+while (TRUE) {
+  number &lt;- sample(1:3, 1)
+  if (number == 2) {
+    print("Found my number!")
+    break
+  } else {
+    print("Still not my number :(")
+  }
+}
+```
+
+```
+## [1] "Still not my number :("
+## [1] "Still not my number :("
+## [1] "Found my number!"
+```
+---
+
+```r
+while (TRUE) {
+  input &lt;- as.numeric(readline("Please, provide a number greater than 0: "))
+  if (input &gt; 0) {
+    print("Thanks!")
+    break
+  } else if (input == 0) {
+    print("Zero is not greater than zero, it's equal!")
+  } else {
+    print("C'mon, you can do better!")
+  }
+}
+```
+---
+`next` is a statement that allows skipping the rest of the loop.
+
+
+```r
+for (n in 1:10) {
+  if (n %% 2 == 0) {
+    print(paste0("Found an even number - ", n))
+    next()
+  }
+  print(paste0("Found an odd number - ", n))
+}
+```
+
+```
+## [1] "Found an odd number - 1"
+## [1] "Found an even number - 2"
+## [1] "Found an odd number - 3"
+## [1] "Found an even number - 4"
+## [1] "Found an odd number - 5"
+## [1] "Found an even number - 6"
+## [1] "Found an odd number - 7"
+## [1] "Found an even number - 8"
+## [1] "Found an odd number - 9"
+## [1] "Found an even number - 10"
+```
+
+---
+**Excercise**  
+Write a loop that will print the following pattern:  
+1  
+22  
+333  
+4444    
+55555  
+666666  
+7777777  
+88888888  
+999999999  
+  
+*Hint*: check out those functions: `rep` and `paste`.
+
+
+```r
+# your code here
+```
+
+---
+**Excercise**  
+Write a loop that will print the following pattern:  
+1  
+22  
+333  
+4444    
+55555  
+666666  
+7777777  
+88888888  
+999999999  
+  
+*Hint*: check out those functions: `rep` and `paste`.
+
+
+```r
+for (n in 1:9) {
+  print(paste(rep(n, n), collapse = ""))
+}
+```
+
+```
+## [1] "1"
+## [1] "22"
+## [1] "333"
+## [1] "4444"
+## [1] "55555"
+## [1] "666666"
+## [1] "7777777"
+## [1] "88888888"
+## [1] "999999999"
+```
+
+---
+**Excercise**  
+Write a function called `fizz_buzz` that takes a number and:
+* If the number is divisible by 3, it should print "Fizz".
+* If it is divisible by 5, it should print "Buzz".
+* If it is divisible by both 3 and 5, it should print "FizzBuzz".
+* Otherwise, it should print the same number.
+
+
+```r
+fizz_buzz &lt;- function() {
+  # your code goes here
+}
+
+# check
+fizz_buzz(9) # Fizz
+fizz_buzz(25) # Buzz
+fizz_buzz(15) # FizzBuzz
+fizz_buzz(13) # 13
+```
+
+---
+**Excercise**  
+Write a function called `fizz_buzz` that takes a number and:
+* If the number is divisible by 3, it should print "Fizz".
+* If it is divisible by 5, it should print "Buzz".
+* If it is divisible by both 3 and 5, it should print "FizzBuzz".
+* Otherwise, it should print the same number.
+
+
+```r
+fizz_buzz &lt;- function(number) {
+  if (number %% 5 == 0) {
+    if (number %% 3 == 0) {
+      print("FizzBuzz")
+    } else {
+      print("Buzz")
+    }
+  } else {
+    if (number %% 3 == 0) {
+      print("Fizz")
+    } else {
+      print(number)
+    }
+  }
+}
+
+# check
+fizz_buzz(9) # Fizz
+```
+
+```
+## [1] "Fizz"
+```
+
+```r
+fizz_buzz(25) # Buzz
+```
+
+```
+## [1] "Buzz"
+```
+
+```r
+fizz_buzz(15) # FizzBuzz
+```
+
+```
+## [1] "FizzBuzz"
+```
+
+```r
+fizz_buzz(13) # 13
+```
+
+```
+## [1] 13
+```
+---
+**Excercise**  
+Write a function for checking the speed of drivers - `check_speed`. This function should have one parameter: speed.
+* If speed is less than 70, it should print "Ok".  
+* Otherwise, for every 5km above the speed limit (70), it should give the driver one demerit point and print the total number of demerit points. For example, if the speed is 80, it should print: "Points: 2".
+* If the driver gets more than 12 points, the function should print: "License suspended"
+
+```r
+check_speed &lt;- function(speed) {
+  # your code goes here
+}
+
+# check
+check_speed(64) # Ok
+check_speed(71) # Points: 1
+check_speed(83) # Points: 3
+check_speed(131) # Licence suspended
+```
+---
+**Excercise**  
+Write a function for checking the speed of drivers - `check_speed`. This function should have one parameter: speed.
+* If speed is less than 70, it should print "Ok".  
+* Otherwise, for every 5km above the speed limit (70), it should give the driver one demerit point and print the total number of demerit points. For example, if the speed is 80, it should print: "Points: 2".
+* If the driver gets more than 12 points, the function should print: "License suspended"
+
+
+```r
+check_speed &lt;- function(speed) {
+  if (speed &lt; 70) {
+    print("Ok")
+  } else {
+    points = ceiling((speed - 70) / 5)
+    if (points &gt;= 12) {
+      print("License suspended")
+    } else {
+      print(paste0("Points: ", points))
+    }
+  }
+}
+
+# check
+check_speed(64) # Ok
+```
+
+```
+## [1] "Ok"
+```
+
+```r
+check_speed(71) # Points: 1
+```
+
+```
+## [1] "Points: 1"
+```
+
+```r
+check_speed(83) # Points: 3
+```
+
+```
+## [1] "Points: 3"
+```
+
+```r
+check_speed(131) # Licence suspended
+```
+
+```
+## [1] "License suspended"
+```
+
+---
+# Next time!
+.pull-left[
+&lt;img src="Part3_Flow_files/figure-html/unnamed-chunk-53-1.png" width="300px" height="300px" /&gt;
+]
+.pull-right[
+&lt;img src="Part3_Flow_files/figure-html/unnamed-chunk-54-1.png" width="3" height="3" /&gt;
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

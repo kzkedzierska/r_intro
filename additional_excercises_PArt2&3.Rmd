@@ -1,0 +1,122 @@
+---
+title: "Additional excercises: Part 2 and Part 3 - answered"
+output: html_notebook
+---
+
+# Simple functions
+
+1. Write a function `to_the_power` that will take a numerical vector and return a vector with each element taken to the power of it's index. 
+
+```{r}
+to_the_power <- function(vec) {
+  # your code here
+}
+
+# check
+to_the_power(1:3) == c(1, 4, 27)
+```
+
+2. Write a function `moving_average`. It should return an average of elements in the vector until, and including, an element at that position.
+
+```{r}
+moving_average <- function(vec) {
+  # your code here
+}
+
+# check
+moving_average(1:5) == c(1, 1.5, 2, 2.5, 3)
+```
+
+3. Write a function `non_na` that will take a vector and return only non NA elements.
+
+```{r}
+non_na <- function(vec) {
+  # your code here
+}
+
+# check
+non_na(c(NA, 1:3, NA, 4:6, NA)) == 1:6
+```
+
+4. Write a function `get_summary` that will take a vector and return the summary statistics: median, min, max, 25% and 75% percentiles.
+
+```{r}
+get_summary <- function(vec) {
+  # your code here
+}
+
+# check
+get_summary(1:10) == c(5.5, 1, 10, 3.25, 7.75)
+```
+
+# Flow
+
+5. You have an urn with balls from 1 to 100. You want to find out how often you need to draw a ball to get number 55. This is an experiment with replacement – you put the ball back each time you draw. Simulate 1000 runs of the experiment to get an accurate estimation of the required draws.
+
+Use seed 7 to make the experiment reproducible. Use loops (for, while) for the solution.
+```{r}
+set.seed(7)
+
+# your code here
+```
+
+What fraction of tosses of a well-balanced (in 1000) conists of tails?
+
+```{r}
+# your code here
+
+```
+
+6. Now do above 1000 times and save results to a vector - `tails_MC`.
+```{r}
+# your code here
+
+```
+
+Does it resemble the distibution you are familiar with?
+
+```{r}
+library(ggplot2)
+qplot(tails_MC) +
+  theme_classic()
+```
+
+7. Find the smallest number between 10000 and 20000 that is divisible by 1234.
+
+```{r}
+C
+```
+
+
+8. Find the largest number between 10000 and 20000 that is divisible by 1234.
+
+```{r}
+# your code here
+
+```
+
+# More complex functions
+
+9. Create a function `is_angram` that given two strings (one word each), check if one is an anagram of another. I.e. 
+
+```{r}
+is_anagram <- function(word1, word2) {
+  # your code here
+}
+
+# check
+is_anagram("option", "potion") # TRUE
+is_anagram("dog", "cat") # FALSE
+```
+
+10. Write the function `map_to_numbers` that given a character string will return it's representation as  vector with positions of the letters in alphabet.
+
+```{r}
+map_to_numbers <- function(word) {
+  # your code here
+}
+
+# check
+map_to_numbers("abc") # c(1, 2, 3)
+map_to_numbers("onomatopeja") # c(15, 14,15, 13, 1, 20,15, 16, 5, 10, 1)
+```
