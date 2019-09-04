@@ -1,0 +1,34 @@
+---
+title: "Introduction to R - Part 4 Data Visualisation"
+author: "Katarzyna Kedzierska"
+date: "4 September 2019"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(message = FALSE,
+                      dpi = 300, 
+                      out.height = "300px", 
+                      out.width = "300px")
+```
+
+```{r xaringan-themer, include = FALSE}
+library(xaringanthemer)
+mono_light(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Droid Mono"),
+  header_h1_font_size = "40px",
+  header_h2_font_size = "30px",
+  header_h3_font_size = "20px", 
+  text_font_size = "20px",
+  code_font_size = "15px"
+)
+```
+
+# Catch up
+

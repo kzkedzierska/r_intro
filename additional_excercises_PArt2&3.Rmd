@@ -1,5 +1,5 @@
 ---
-title: "Additional excercises: Part 2 and Part 3 - answered"
+title: "Additional excercises: Part 2 and Part 3"
 output: html_notebook
 ---
 

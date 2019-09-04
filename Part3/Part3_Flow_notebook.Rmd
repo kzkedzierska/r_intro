@@ -162,7 +162,7 @@ if (FALSE) {
 
 Let's have some fun
 
-```{r, eval = FALSE}
+```{r}
 input <- readline("Hiya! What's your name? ")
 
 if (input != "") {
@@ -174,7 +174,7 @@ if (input != "") {
 
 But what if we want to test multiple conditions? `else if` is the answer.
 
-```{r, eval = FALSE}
+```{r}
 input <- as.numeric(readline("Please, provide a number greater than 0: "))
 
 if (input > 0) {
@@ -240,6 +240,8 @@ Let's get the sum of all of the above!
 ```{r}
 sum_of_cubes <- 0
 for (n in seq(1, 10, 2)) { 
+  print(n)
+  print(sum_of_cubes)
   sum_of_cubes = sum_of_cubes + n ^ 3
 }
 
@@ -268,8 +270,8 @@ sum_of_cubes <- sum(seq(1, 10, 2)^3)
 ```{r}
 i <- 10
 while (i < 100) {
-  i = i + i 
   print(i)
+  i = i + i 
 }
 ```
 
@@ -340,8 +342,16 @@ Write a function called `fizz_buzz` that takes a number and:
 * Otherwise, it should print the same number.
 
 ```{r}
-fizz_buzz <- function() {
-  # your code goes here
+fizz_buzz <- function(x) {
+  if (x %% 5 == 0 & x %% 3 == 0) {
+   print("FizzBuzz")
+  } else if (x %% 5 == 0) {
+   print("Buzz")
+  } else if (x %% 3 == 0) {
+   print("Fizz")
+ } else {
+    print(x)
+  }
 }
 
 # check

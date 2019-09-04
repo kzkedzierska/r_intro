@@ -112,6 +112,7 @@ To negate the value use `!`
 ```
 ---
 Comparisons: 
+
 * `==` - equal to
 ```{r}
 TRUE == FALSE
