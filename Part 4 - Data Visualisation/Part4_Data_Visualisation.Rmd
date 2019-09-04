@@ -32,3 +32,311 @@ mono_light(
 
 # Catch up
 
+So far we learned:
+
+* about data types and structures;
+* how to write functions;
+* about the logic and the flow.
+
+---
+
+# Quiz
+
+```{r}
+vec1 <- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
+vec2 <- as.factor(vec1)
+```
+
+## What's the order of classes in the vec2?
+
+---
+
+# Quiz
+
+```{r}
+vec1 <- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
+vec2 <- as.factor(vec1)
+```
+
+## What's the order of classes in the vec2?
+
+```{r}
+vec2
+```
+
+---
+
+# Quiz
+
+```{r}
+vec1 <- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
+vec2 <- as.factor(vec1)
+```
+
+## Is `vec1` equal to `vec2`? How to check this?
+
+---
+
+# Quiz
+
+```{r}
+vec1 <- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
+vec2 <- as.factor(vec1)
+```
+
+## Is `vec1` equal to `vec2`? How to check this?
+
+```{r}
+identical(vec1, vec2)
+```
+or
+
+```{r}
+all(vec1 == vec2) && typeof(vec1) == typeof(vec2)
+```
+
+---
+
+# Quiz
+
+## What will the following code return?
+```{r, eval=FALSE}
+x <- 10
+f1 <- function(y) {
+  y = x
+  x + y
+}
+f1(8)
+```
+
+---
+
+# Quiz
+
+## What will the following code return?
+```{r}
+x <- 10
+f1 <- function(y) {
+  y = x
+  x + y
+}
+f1(8)
+```
+
+---
+
+# Quiz
+
+## What will the following code return?
+```{r, eval=FALSE}
+x <- 10
+f1 <- function(x) {
+  function() {
+    x + 10
+  }
+}
+f1(1)()
+```
+---
+
+# Quiz
+
+## What will the following code return?
+```{r}
+x <- 10
+f1 <- function(x) {
+  function() {
+    x + 10
+  }
+}
+f1(1)()
+```
+---
+
+
+# Why visualise data?
+Let's look at this data set with 20 observations (rows) for 2 variables (columns).
+
+```{r, echo=FALSE, include=FALSE}
+library(tidyverse)
+set.seed(0)
+t <- sort(runif(20, 0, 2*pi))
+x <- 2*cos(t)
+y <- 2*sin(t)
+df <- data.frame(x, y)
+```
+.pull-left[
+```{r}
+df
+```
+]
+.pull-right[
+```{r}
+summary(df)
+cor(df$x, df$y)
+```
+]
+
+---
+
+# Why visualise data?
+
+Can we say more about the data now?
+
+```{r}
+ggplot(df, aes(x, y)) +
+  geom_point()
+```
+
+---
+However, we need to remember that there are better and worse ways to visualise data.
+
+.pull-left[
+```{r}
+ggplot(df, aes(x, y)) +
+  geom_point()
+```
+]
+.pull-right[
+```{r}
+df %>% 
+  mutate(index = 1:n()) %>%
+  gather(variable, value, -index) %>%
+  ggplot(., aes(index, value, color = variable)) +
+  geom_line()
+```
+]
+.footnote[The example data set and the bad/good plot idea came from [Kaspar Martens](https://kasparmartens.rbind.io/) [slides](https://github.com/kasparmartens/2018_12_bham/blob/master/2018_10_18_slides.pdf) which were inspired by the talk "How Humans See Data" by John Rauser]
+
+---
+
+# ggplot2
+
+Please refer to the cheat sheets. This is a great resource to begin your adventure with `ggplot2`. We will discover the `ggplot2` package, and some of the `tidyverse` functions as we will go on. 
+
+.pull-left[
+```{r, echo=FALSE}
+plot(PlantGrowth$group, 
+     PlantGrowth$weight, 
+     main = "Ugly, but easy, plot")
+```
+]
+.pull-right[
+```{r, echo=FALSE}
+library(ggsci)
+PlantGrowth %>%
+  ggplot(., aes(group, weight)) +
+  geom_jitter(aes(color = group)) +
+  geom_violin(alpha = 0.2, aes(fill = group)) +
+  geom_boxplot(width = 0.1) +
+  theme_classic() +
+  scale_color_futurama() +
+  scale_fill_futurama() +
+  labs(x = "Group", color = "Group", 
+       fill = "Group", y = "Weight", title = "Pretty plot") +
+  theme(legend.position = "bottom")
+```
+]
+
+---
+
+## Simple plot
+Let's start with the basics though. We will create our first plot with the following data.
+
+```{r}
+df <- data.frame(x = -100:100,
+                 y = (-100:100)^2)
+summary(df)
+```
+
+---
+## Simple plot
+
+```{r}
+plt <- ggplot()
+plt
+```
+---
+
+## Simple plot
+
+```{r}
+plt <- ggplot(df)
+plt
+```
+---
+
+## Simple plot
+
+```{r}
+plt <- ggplot(df, aes(x, y))
+plt
+```
+
+---
+
+## Simple plot
+
+```{r}
+plt <- ggplot(df, aes(x, y))
+plt + geom_point()
+```
+
+---
+## Excercise 
+Given `iris` data set:
+
+```{r}
+head(iris)
+```
+
+```{r}
+summary(iris)
+```
+
+---
+Plot the following figure. (We want to show the relationship between Sepal Length and Sepal Width with respect to the Specie.)
+```{r, echo=FALSE}
+iris %>%
+  ggplot(., aes(Sepal.Length, Sepal.Width, color = Species)) +
+  geom_point() +
+  geom_smooth()
+```
+
+**Hint:** Use your cheatsheets!
+
+---
+
+# Which one is better?
+.pull-left[
+```{r, echo = FALSE}
+iris %>%
+  ggplot(., aes(Sepal.Length, Sepal.Width, color = Species)) +
+  geom_point() +
+  geom_smooth()
+```
+]
+.pull-right[
+```{r, echo = FALSE}
+iris %>%
+  ggplot(., aes(Sepal.Length, Sepal.Width, color = Species)) +
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(~Species)
+```
+]
+
+---
+
+## Faceting
+
+`facet_wrap()` allows to plot subplots
+
+```{r}
+iris %>%
+  ggplot(., aes(Sepal.Length, Sepal.Width, color = Species)) +
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(~Species, )
+```
+

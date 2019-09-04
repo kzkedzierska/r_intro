@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Introduction to R - Part 4 Data Visualisation</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Katarzyna Kedzierska" />
+    <meta name="date" content="2019-09-04" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to R - Part 4 Data Visualisation
+### Katarzyna Kedzierska
+### 4 September 2019
+
+---
+
+
+
+
+
+
+# Catch up
+
+So far we learned:
+
+* about data types and structures;
+* how to write functions;
+* about the logic and the flow.
+
+---
+
+# Quiz
+
+
+```r
+vec1 &lt;- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
+vec2 &lt;- as.factor(vec1)
+```
+
+## What's the order of classes in the vec2?
+
+---
+
+# Quiz
+
+
+```r
+vec1 &lt;- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
+vec2 &lt;- as.factor(vec1)
+```
+
+## What's the order of classes in the vec2?
+
+
+```r
+vec2
+```
+
+```
+## [1] wt   wt   mut1 mut2 mut1 mut1 mut2 wt  
+## Levels: mut1 mut2 wt
+```
+
+---
+
+# Quiz
+
+
+```r
+vec1 &lt;- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
+vec2 &lt;- as.factor(vec1)
+```
+
+## Is `vec1` equal to `vec2`? How to check this?
+
+---
+
+# Quiz
+
+
+```r
+vec1 &lt;- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
+vec2 &lt;- as.factor(vec1)
+```
+
+## Is `vec1` equal to `vec2`? How to check this?
+
+
+```r
+identical(vec1, vec2)
+```
+
+```
+## [1] FALSE
+```
+or
+
+
+```r
+all(vec1 == vec2) &amp;&amp; typeof(vec1) == typeof(vec2)
+```
+
+```
+## [1] FALSE
+```
+
+---
+
+# Quiz
+
+## What will the following code return?
+
+```r
+x &lt;- 10
+f1 &lt;- function(y) {
+  y = x
+  x + y
+}
+f1(8)
+```
+
+---
+
+# Quiz
+
+## What will the following code return?
+
+```r
+x &lt;- 10
+f1 &lt;- function(y) {
+  y = x
+  x + y
+}
+f1(8)
+```
+
+```
+## [1] 20
+```
+
+---
+
+# Quiz
+
+## What will the following code return?
+
+```r
+x &lt;- 10
+f1 &lt;- function(x) {
+  function() {
+    x + 10
+  }
+}
+f1(1)()
+```
+---
+
+# Quiz
+
+## What will the following code return?
+
+```r
+x &lt;- 10
+f1 &lt;- function(x) {
+  function() {
+    x + 10
+  }
+}
+f1(1)()
+```
+
+```
+## [1] 11
+```
+---
+
+
+# Why visualise data?
+Let's look at this data set with 20 observations (rows) for 2 variables (columns).
+
+
+.pull-left[
+
+```r
+df
+```
+
+```
+##             x           y
+## 1   1.8511728  0.75707293
+## 2   0.8905073  1.79080895
+## 3   0.5978985  1.90853801
+## 4   0.5462112  1.92396811
+## 5  -0.1945793  1.99051222
+## 6  -1.3884277  1.43953762
+## 7  -1.4582398  1.36877192
+## 8  -1.4927500  1.33105122
+## 9  -1.9997910  0.02891117
+## 10 -1.7940972 -0.88386385
+## 11 -1.3771887 -1.45029347
+## 12 -1.0631755 -1.69400647
+## 13 -0.7709031 -1.84545616
+## 14 -0.4041162 -1.95874707
+## 15  0.2486893 -1.98447818
+## 16  1.5932918 -1.20889258
+## 17  1.6060571 -1.19188117
+## 18  1.6764814 -1.09060084
+## 19  1.8803753 -0.68131388
+## 20  1.9974143 -0.10166718
+```
+]
+.pull-right[
+
+```r
+summary(df)
+```
+
+```
+##        x                  y          
+##  Min.   :-1.99979   Min.   :-1.9845  
+##  1st Qu.:-1.38000   1st Qu.:-1.2692  
+##  Median : 0.02705   Median :-0.3915  
+##  Mean   : 0.04724   Mean   :-0.0776  
+##  3rd Qu.: 1.59648   3rd Qu.: 1.3865  
+##  Max.   : 1.99741   Max.   : 1.9905
+```
+
+```r
+cor(df$x, df$y)
+```
+
+```
+## [1] -0.0304444
+```
+]
+
+---
+
+# Why visualise data?
+
+Can we say more about the data now?
+
+
+```r
+ggplot(df, aes(x, y)) +
+  geom_point()
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-16-1.png" width="300px" height="300px" /&gt;
+
+---
+However, we need to remember that there are better and worse ways to visualise data.
+
+.pull-left[
+
+```r
+ggplot(df, aes(x, y)) +
+  geom_point()
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-17-1.png" width="300px" height="300px" /&gt;
+]
+.pull-right[
+
+```r
+df %&gt;% 
+  mutate(index = 1:n()) %&gt;%
+  gather(variable, value, -index) %&gt;%
+  ggplot(., aes(index, value, color = variable)) +
+  geom_line()
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-18-1.png" width="300px" height="300px" /&gt;
+]
+.footnote[The example data set and the bad/good plot idea came from [Kaspar Martens](https://kasparmartens.rbind.io/) [slides](https://github.com/kasparmartens/2018_12_bham/blob/master/2018_10_18_slides.pdf) which were inspired by the talk "How Humans See Data" by John Rauser]
+
+---
+
+# ggplot2
+
+Please refer to the cheat sheets. This is a great resource to begin your adventure with `ggplot2`. We will discover the `ggplot2` package, and some of the `tidyverse` functions as we will go on. 
+
+.pull-left[
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-19-1.png" width="300px" height="300px" /&gt;
+]
+.pull-right[
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-20-1.png" width="300px" height="300px" /&gt;
+]
+
+---
+
+## Simple plot
+Let's start with the basics though. We will create our first plot with the following data.
+
+
+```r
+df &lt;- data.frame(x = -100:100,
+                 y = (-100:100)^2)
+summary(df)
+```
+
+```
+##        x              y        
+##  Min.   :-100   Min.   :    0  
+##  1st Qu.: -50   1st Qu.:  625  
+##  Median :   0   Median : 2500  
+##  Mean   :   0   Mean   : 3367  
+##  3rd Qu.:  50   3rd Qu.: 5625  
+##  Max.   : 100   Max.   :10000
+```
+
+---
+## Simple plot
+
+
+```r
+plt &lt;- ggplot()
+plt
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-22-1.png" width="300px" height="300px" /&gt;
+---
+
+## Simple plot
+
+
+```r
+plt &lt;- ggplot(df)
+plt
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-23-1.png" width="300px" height="300px" /&gt;
+---
+
+## Simple plot
+
+
+```r
+plt &lt;- ggplot(df, aes(x, y))
+plt
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-24-1.png" width="300px" height="300px" /&gt;
+
+---
+
+## Simple plot
+
+
+```r
+plt &lt;- ggplot(df, aes(x, y))
+plt + geom_point()
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-25-1.png" width="300px" height="300px" /&gt;
+
+---
+## Excercise 
+Given `iris` data set:
+
+
+```r
+head(iris)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+```
+
+
+```r
+summary(iris)
+```
+
+```
+##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## 
+```
+
+---
+Plot the following figure. (We want to show the relationship between Sepal Length and Sepal Width with respect to the Specie.)
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-28-1.png" width="300px" height="300px" /&gt;
+
+**Hint:** Use your cheatsheets!
+
+---
+
+# Which one is better?
+.pull-left[
+
+```r
+iris %&gt;%
+  ggplot(., aes(Sepal.Length, Sepal.Width, color = Species)) +
+  geom_point() +
+  geom_smooth()
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-29-1.png" width="300px" height="300px" /&gt;
+]
+.pull-right[
+
+```r
+iris %&gt;%
+  ggplot(., aes(Sepal.Length, Sepal.Width, color = Species)) +
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(~Species)
+```
+
+&lt;img src="Part4_Data_Visualisation_files/figure-html/unnamed-chunk-30-1.png" width="300px" height="300px" /&gt;
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
