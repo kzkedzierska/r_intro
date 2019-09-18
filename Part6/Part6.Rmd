@@ -1,0 +1,64 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library("airway")
+library("Rsamtools")
+library("GenomicFeatures")
+library("GenomicAlignments")
+library("BiocParallel")
+in_dir <- system.file("extdata", package = "airway", mustWork = TRUE)
+```
+
+# sample table
+```{r}
+csv_file <- file.path(in_dir, "sample_table.csv")
+sample_table <- read.csv(csv_file, row.names = 1)
+```
+
+# alignment
+```{r data}
+file_names <- file.path(in_dir, paste0(sample_table$Run, "_subset.bam"))
+bam_files <- BamFileList(file_names, yieldSize = 2000000)
+```
+
+# annotation
+```{r}
+gtf_file <- file.path(in_dir, "Homo_sapiens.GRCh37.75_subset.gtf")
+txdb <- makeTxDbFromGFF(gtf_file, format = "gtf", circ_seqs = character())
+txdb
+```
+
+```{r}
+ebg <- exonsBy(txdb, by="gene")
+ebg
+```
+
+# Counts
+```{r}
+se <- summarizeOverlaps(features = ebg, reads = bam_files,
+                        mode = "Union",
+                        singleEnd = FALSE,
+                        ignore.strand = TRUE,
+                        fragments = TRUE )
+```
+
+```{r}
+dir.create("data")
+lapply(colnames(assay(se)), function(x) {
+  assay(se) %>%
+    as.data.frame() %>%
+    dplyr::select(x) %>%
+    write_tsv(., paste0("data/", gsub("_subset.bam", "", x), ".txt"))
+})
+
+```
+
+```{r}
+dds <- DESeqDataSetFromMatrix(countData = counts,
+                              colData = col_data,
+                              design = ~ cell + dex)
+```
+

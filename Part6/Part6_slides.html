@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Introduction to R - Part 6</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Katarzyna Kedzierska" />
+    <meta name="date" content="2019-09-18" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to R - Part 6
+### Katarzyna Kedzierska
+### 18 September 2019
+
+---
+
+
+
+
+
+
+
+
+
+# Catch up
+
+So far we learned:
+
+* about data types and structures;
+* how to write functions;
+* about the logic and the flow;
+* how to create visualisations.
+
+&lt;img src="./EEW6FhQU0AE7WTK.jpeg" width="330" height="240" /&gt;
+
+
+.footnote[[More obnoxious plots here](https://twitter.com/biogeobiochem/status/1172547837046820864)]
+
+---
+# Pipes
+
+And we've touched on dplyr syntax.
+
+Now we know what are pipies and that instead of this:
+
+
+```r
+leave_house(get_dressed(get_out_of_bed(wake_up(me))))
+```
+
+or better yet this:
+
+```r
+woken_up_me &lt;- wake_up(me)
+standing_up_me &lt;- get_out_of_bed(woken_up_me)
+dressed_me &lt;- get_dressed(standing_up_me)
+ready_me &lt;- leave_house(dressed_me)
+```
+
+We can write it like this:
+
+
+```r
+me %&gt;%
+  wake_up() %&gt;%
+  get_out_of_bed() %&gt;%
+  get_dressed() %&gt;%
+  leave_house()
+```
+
+.footnote[Source: [Andrew Heiss](https://twitter.com/andrewheiss/status/1173743447171354624)]
+
+---
+
+# Plan for today
+
+* `lapply`, `apply`, ...
+* more `tudyverse`
+
+yay!
+
+---
+
+# Better looping
+
+`lapply`, `apply`, `sapply` and so on, are here to help us write more efficient loops in a more readible way.
+
+But before we start, quick reminder. Given the following matrix:
+
+
+```r
+set.seed(7)
+mat &lt;- matrix(rnorm(1000), 10, 10)
+rownames(mat) &lt;- paste0("gene_", 1:nrow(mat))
+colnames(mat) &lt;- paste0("sample_", 1:ncol(mat))
+```
+
+get the following:
+
+* `sums_row`, `sum_cols`- sum the rows and columns of the matrix
+* `normalized_row` - from each value in the row substract the row' mean and divide the result of substracyion by row' standar deviation
+
+---
+
+* `sums_row`
+
+```r
+sums_row &lt;- c()
+# your code here
+```
+
+* `sums_col`
+
+```r
+sums_col &lt;- c()
+# your code here
+```
+
+* `normalized_row`
+
+```r
+normalized_row &lt;- mat
+# your code here
+```
+---
+
+* `sums_row`
+
+```r
+sums_row &lt;- c()
+for (i in 1:nrow(mat)) {
+   sums_row &lt;- c(sums_row, sum(mat[i, ]))
+}
+sums_row
+```
+
+```
+##  [1]  6.0563193  0.8324256  3.6617993 -1.4780077  0.8437964 -1.8799602
+##  [7]  2.0388234 -1.2769656 -1.7367245  6.8081558
+```
+
+* `sums_col`
+
+```r
+sums_col &lt;- c()
+for (i in 1:ncol(mat)) {
+   sums_col &lt;- c(sums_col, sum(mat[, i]))
+}
+sums_col
+```
+
+```
+##  [1]  1.039757  7.825171  3.005079 -1.037480  1.103014  1.025147  6.796162
+##  [8] -4.023923 -2.971071  1.107807
+```
+
+---
+
+* `normalized_row`
+
+```r
+normalized_row &lt;- mat
+for (i in 1:nrow(mat)) {
+  norm_row &lt;- (mat[i, ] - mean(mat[i, ])) / sd(mat[i,])
+  normalized_row[i, ] &lt;- norm_row
+}
+normalized_row
+```
+
+```
+##            sample_1   sample_2   sample_3    sample_4   sample_5
+## gene_1   1.81866380 -0.2689099  0.2531987 -1.59681362  0.6628703
+## gene_2  -1.13040367  2.3256995  0.5493871  0.56119325 -0.6910925
+## gene_3  -1.17438021  2.1209958  1.0407292 -0.28297379 -0.7216039
+## gene_4  -0.27910426  0.4978874 -1.3087110  0.07316441 -1.2280443
+## gene_5  -0.95111164  1.6332043  1.0714453 -0.45513148 -0.4285576
+## gene_6  -1.02696794  0.8868340  0.5034032 -0.50602858 -0.2888104
+## gene_7   0.52869465 -1.0662962  0.5327168  0.77093822  1.1138486
+## gene_8   0.01307594 -0.2186743  0.8758105 -1.18987636  0.8751349
+## gene_9   0.40931533  0.2117883 -1.0152043  0.03936568  0.3439260
+## gene_10  1.45238327  0.2957852 -0.9208788 -0.35205739  0.2408410
+##             sample_6    sample_7   sample_8    sample_9  sample_10
+## gene_1  -0.939145199 -0.57239422 -0.1871043 -0.28448440  1.1141189
+## gene_2  -0.080284850  0.06703989 -0.8882792 -0.06976131 -0.6434981
+## gene_3   0.001077602  0.19655932 -1.0872177 -0.37315374  0.2799674
+## gene_4   1.957442224  0.89971113 -0.7585728 -0.25919228  0.4054195
+## gene_5   0.576372324  0.21147830 -1.5540625 -0.79067593  0.6870389
+## gene_6   0.904897962  1.75458718 -1.5389875 -0.16731810 -0.5216098
+## gene_7  -1.721089586  0.54910861 -1.0616684 -0.53422577  0.8879730
+## gene_8   0.542872334  1.55962955 -0.5233448 -0.21536222 -1.7192656
+## gene_9   0.426039931  1.79911056  0.1395660 -2.02220647 -0.3317011
+## gene_10 -1.521251615  0.01906270  1.6763427 -0.09002161 -0.8002054
+```
+
+* `normalized_row`
+
+```r
+normalized_row &lt;- scale(mat)
+normalized_row
+```
+
+```
+##            sample_1   sample_2   sample_3    sample_4    sample_5
+## gene_1   1.72363983 -0.3628429  0.5889600 -1.14860295  1.25498751
+## gene_2  -1.02690844  1.6492891  0.4421592  1.23148827 -0.91681650
+## gene_3  -0.63021333  1.2781163  1.0981587  0.32102795 -0.44813157
+## gene_4  -0.40758153 -0.3909522 -1.8441821  0.03785427 -1.61011551
+## gene_5  -0.84840929  0.9495052  1.0620639 -0.47426655 -0.56769059
+## gene_6  -0.82994077 -0.2684558 -0.1270392 -0.68634089 -0.57959691
+## gene_7   0.50855158 -1.4293677  0.4934249  1.64894697  1.40442773
+## gene_8  -0.17441957 -0.9292926  0.3180889 -1.49939494  0.54456096
+## gene_9   0.03843323 -0.6713510 -1.4019032 -0.05770664 -0.01107034
+## gene_10  1.64684827  0.1753518 -0.6297311  0.62699450  0.92944521
+##            sample_6    sample_7   sample_8    sample_9  sample_10
+## gene_1  -0.40935798 -1.45870982  0.7240623  0.97644493  1.5889291
+## gene_2  -0.12348624 -1.25852979 -0.4510841  0.45999747 -0.7878977
+## gene_3   0.29659054 -0.32872225 -0.1848630  0.49811485  0.5295113
+## gene_4   1.79839197  0.06091486 -0.4025757 -0.14701994  0.1308775
+## gene_5   0.69623191 -0.87208290 -1.0727360 -0.75649408  0.7665552
+## gene_6   0.42422374  1.03889961 -0.8007396 -0.02227780 -0.7131117
+## gene_7  -1.87206394  0.21651235 -0.4219792 -0.07473616  1.0494261
+## gene_8   0.24178333  1.14583766 -0.1345858 -0.01144890 -1.7199683
+## gene_9   0.07114086  1.40508240  0.2948122 -2.27252608 -0.5719099
+## gene_10 -1.12345419  0.05079787  2.4496888  1.34994571 -0.2724116
+## attr(,"scaled:center")
+##   sample_1   sample_2   sample_3   sample_4   sample_5   sample_6 
+##  0.1039757  0.7825171  0.3005079 -0.1037480  0.1103014  0.1025147 
+##   sample_7   sample_8   sample_9  sample_10 
+##  0.6796162 -0.4023923 -0.2971071  0.1107807 
+## attr(,"scaled:scale")
+##  sample_1  sample_2  sample_3  sample_4  sample_5  sample_6  sample_7 
+## 1.2666634 1.1727688 0.9155842 0.6678574 0.8830758 0.8922681 0.4135468 
+##  sample_8  sample_9 sample_10 
+## 1.1532425 0.6551240 0.9597746
+```
+---
+
+# `apply`
+Now, let's look how exactly the same thing we can do using `apply`
+
+`apply(array, margin, fun, ...)`
+
+* `array` - array on which we will perform the operation
+* `margin` - `1` - perform operation rowwise, `2` - columnwise and `c(1,2)` - both, row and columnwise
+* `fun` - function to apply to each row/column
+
+---
+
+* `sums_row`
+
+```r
+sums_row &lt;- c()
+for (i in 1:nrow(mat)) {
+   sums_row &lt;- c(sums_row, sum(mat[i, ]))
+}
+sums_row
+```
+
+```
+##  [1]  6.0563193  0.8324256  3.6617993 -1.4780077  0.8437964 -1.8799602
+##  [7]  2.0388234 -1.2769656 -1.7367245  6.8081558
+```
+
+or
+
+
+```r
+sums_row_apply &lt;- apply(mat, 1, sum)
+```
+
+
+```r
+all(sums_row == sums_row_apply)
+```
+
+```
+## [1] TRUE
+```
+
+---
+
+* `sums_col`
+
+```r
+sums_col_apply &lt;- apply()
+```
+
+---
+
+* `sums_col`
+
+```r
+sums_col_apply &lt;- apply(mat, 2, sum)
+```
+
+---
+We can also define more complex functions:
+
+*`normalized_row`
+
+```r
+normalized_row_apply &lt;- apply(mat, 1, function(row) (row - mean(row)) / sd(row))
+```
+
+
+```r
+all(normalized_row_apply == normalized_row)
+```
+
+```
+## [1] FALSE
+```
+
+---
+
+# `lapply`
+
+`lapply(x, fun, ...)`
+
+* `x` - a list over which it will iterate
+* `fun` - function to be applied to each item in the list
+
+
+```r
+list_in &lt;- list(test = 1:10, train = 10:20, teach = 20:30)
+out &lt;- lapply(list_in, median)
+out
+```
+
+```
+## $test
+## [1] 5.5
+## 
+## $train
+## [1] 15
+## 
+## $teach
+## [1] 25
+```
+
+---
+# `lapply` vs. `sapply`
+
+```r
+lapply(colnames(mat), function(colname) {
+ median(mat[, colname])
+})
+```
+
+```
+## [[1]]
+## [1] -0.2646241
+## 
+## [[2]]
+## [1] 0.4123334
+## 
+## [[3]]
+## [1] 0.6485434
+## 
+## [[4]]
+## [1] -0.1103773
+## 
+## [[5]]
+## [1] -0.09245365
+## 
+## [[6]]
+## [1] 0.2421209
+## 
+## [[7]]
+## [1] 0.7027154
+## 
+## [[8]]
+## [1] -0.7411219
+## 
+## [[9]]
+## [1] -0.3081547
+## 
+## [[10]]
+## [1] 0.04286031
+```
+
+
+```r
+sapply(colnames(mat), function(colname) {
+ median(mat[, colname])
+})
+```
+
+```
+##    sample_1    sample_2    sample_3    sample_4    sample_5    sample_6 
+## -0.26462409  0.41233337  0.64854344 -0.11037730 -0.09245365  0.24212087 
+##    sample_7    sample_8    sample_9   sample_10 
+##  0.70271543 -0.74112195 -0.30815473  0.04286031
+```
+
+---
+# Others
+
+* `vapply(x, fun, fun.value)` - perform an operation on each element in the vector
+
+
+```r
+vapply(1:ncol(mat), function(i) sd(mat[,i]), c(1))
+```
+
+```
+##  [1] 1.2666634 1.1727688 0.9155842 0.6678574 0.8830758 0.8922681 0.4135468
+##  [8] 1.1532425 0.6551240 0.9597746
+```
+
+* `tapply(vector, index, function)`
+
+
+```r
+n &lt;- 17 
+fac &lt;- factor(rep_len(1:3, n), levels = 1:5)
+table(fac)
+```
+
+```
+## fac
+## 1 2 3 4 5 
+## 6 6 5 0 0
+```
+
+```r
+tapply(1:n, fac, sum)
+```
+
+```
+##  1  2  3  4  5 
+## 51 57 45 NA NA
+```
+
+* `mapply(fun, MoreArgs)`
+
+
+```r
+mapply(rep, times = 1:4, MoreArgs = list(x = 42))
+```
+
+```
+## [[1]]
+## [1] 42
+## 
+## [[2]]
+## [1] 42 42
+## 
+## [[3]]
+## [1] 42 42 42
+## 
+## [[4]]
+## [1] 42 42 42 42
+```
+
+---
+
+# More tidyverse
+
+
+```r
+library(tidyverse)
+data(starwars)
+starwars
+```
+
+```
+## # A tibble: 87 x 13
+##    name  height  mass hair_color skin_color eye_color birth_year gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+##  1 Luke…    172    77 blond      fair       blue            19   male  
+##  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
+##  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
+##  4 Dart…    202   136 none       white      yellow          41.9 male  
+##  5 Leia…    150    49 brown      light      brown           19   female
+##  6 Owen…    178   120 brown, gr… light      blue            52   male  
+##  7 Beru…    165    75 brown      light      blue            47   female
+##  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
+##  9 Bigg…    183    84 black      light      brown           24   male  
+## 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
+## # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

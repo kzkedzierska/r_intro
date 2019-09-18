@@ -1,5 +1,5 @@
 ---
-title: "Introduction to R - Part 4 Data Visualisation"
+title: "Introduction to R - \nPart 4 Data Visualisation"
 author: "Katarzyna Kedzierska"
 date: "4 September 2019"
 output:
@@ -30,6 +30,11 @@ mono_light(
 )
 ```
 
+```{r setup, echo=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
 # Catch up
 
 So far we learned:
@@ -56,6 +61,7 @@ vec2 <- as.factor(vec1)
 ```{r}
 vec1 <- c("wt", "wt", "mut1", "mut2", "mut1", "mut1", "mut2", "wt")
 vec2 <- as.factor(vec1)
+vec3 <- as.numeric(vec2)
 ```
 
 ## What's the order of classes in the vec2?
@@ -158,7 +164,6 @@ f1(1)()
 Let's look at this data set with 20 observations (rows) for 2 variables (columns).
 
 ```{r, echo=FALSE, include=FALSE}
-library(tidyverse)
 set.seed(0)
 t <- sort(runif(20, 0, 2*pi))
 x <- 2*cos(t)
@@ -283,6 +288,42 @@ plt + geom_point()
 ```
 
 ---
+## Geoms
+
+Look at your cheatsheets. You can see multiple different plot genearated by different geoms.
+
+### Density
+```{r}
+ggplot(mpg, aes(hwy)) + 
+  geom_density()
+```
+---
+
+# Histogram
+```{r}
+ggplot(mpg, aes(hwy)) + 
+  geom_histogram()
+```
+
+---
+# Smooth
+```{r}
+ggplot(mpg, aes(cty, hwy)) +
+  geom_jitter()+
+  geom_smooth()
+```
+---
+# 2D Density
+```{r}
+if (!require("ggplot2movies")) {
+  install.packages("ggplot2movies")
+}
+library(ggplot2movies)
+ggplot(movies, aes(year, rating)) +
+  geom_density2d()
+```
+
+---
 ## Excercise 
 Given `iris` data set:
 
@@ -297,9 +338,9 @@ summary(iris)
 ---
 Plot the following figure. (We want to show the relationship between Sepal Length and Sepal Width with respect to the Specie.)
 ```{r, echo=FALSE}
-iris %>%
-  ggplot(., aes(Sepal.Length, Sepal.Width, color = Species)) +
-  geom_point() +
+plt <- iris %>%
+  ggplot(., aes(Sepal.Length, Sepal.Width)) +
+  geom_point(aes(color = Species)) +
   geom_smooth()
 ```
 
@@ -330,13 +371,130 @@ iris %>%
 
 ## Faceting
 
-`facet_wrap()` allows to plot subplots
+`facet_wrap()` allows to plot subplots of the same kind according to some discrete variable.
 
 ```{r}
 iris %>%
   ggplot(., aes(Sepal.Length, Sepal.Width, color = Species)) +
   geom_point() +
   geom_smooth() +
-  facet_wrap(~Species, )
+  facet_wrap(~Species, nrow = 2)
 ```
 
+---
+
+## Making plots pretty
+
+# Change themes
+.pull-left[
+```{r}
+PlantGrowth %>%
+  ggplot(., aes(group, weight)) +
+  geom_jitter(aes(color = group)) +
+  geom_violin(alpha = 0.2, aes(fill = group)) +
+  geom_boxplot(width = 0.1)
+```
+]
+.pull-right[
+```{r, echo = FALSE}
+library(ggsci)
+PlantGrowth %>%
+  ggplot(., aes(group, weight)) +
+  geom_jitter(aes(color = group)) +
+  geom_violin(alpha = 0.2, aes(fill = group)) +
+  geom_boxplot(width = 0.1) +
+  theme_classic() +
+  scale_color_futurama() +
+  scale_fill_futurama() +
+  labs(x = "Group", color = "Group", 
+       fill = "Group", y = "Weight", title = "Pretty plot") +
+  theme(legend.position = "bottom")
+```
+]
+
+---
+First, we change the theme.
+```{r}
+PlantGrowth %>%
+  ggplot(., aes(group, weight)) +
+  geom_jitter(aes(color = group)) +
+  geom_violin(alpha = 0.2, aes(fill = group)) +
+  geom_boxplot(width = 0.1) +
+  theme_classic()
+```
+
+---
+Then, we change colors.
+```{r}
+library(ggsci)
+PlantGrowth %>%
+  ggplot(., aes(group, weight)) +
+  geom_jitter(aes(color = group)) +
+  geom_violin(alpha = 0.2, aes(fill = group)) +
+  geom_boxplot(width = 0.1) +
+  theme_classic() +
+  scale_color_futurama() +
+  scale_fill_futurama()
+```
+
+---
+Next, we add labels.
+```{r}
+PlantGrowth %>%
+  ggplot(., aes(group, weight)) +
+  geom_jitter(aes(color = group)) +
+  geom_violin(alpha = 0.2, aes(fill = group)) +
+  geom_boxplot(width = 0.1) +
+  theme_classic() +
+  scale_color_futurama() +
+  scale_fill_futurama() +
+  labs(x = "Group", color = "Group", 
+       fill = "Group", y = "Weight", title = "Pretty plot")
+```
+---
+
+And lastly, we move the legend.
+```{r}
+PlantGrowth %>%
+  ggplot(., aes(group, weight)) +
+  geom_jitter(aes(color = group)) +
+  geom_violin(alpha = 0.2, aes(fill = group)) +
+  geom_boxplot(width = 0.1) +
+  theme_classic() +
+  scale_color_futurama() +
+  scale_fill_futurama() +
+  labs(x = "Group", color = "Group", 
+       fill = "Group", y = "Weight", title = "Pretty plot") +
+  theme(legend.position = "bottom")
+```
+---
+
+# More fun with plotting!
+
+Given this dataset
+```{r}
+movies_df <- movies %>%
+  select(title, year, length, budget, rating, votes, Action:Short) %>%
+  gather(genre, value, -title, -year, -budget, -length, -rating, -votes) %>%
+  filter(value == 1) %>%
+  select(-value) 
+```
+
+recreate the following plots:
+
+```{r, echo = FALSE}
+movies_df %>% 
+  ggplot(., aes(genre, votes)) +
+  geom_violin() +
+  geom_boxplot(width = 0.2) +
+  scale_y_log10() +
+  theme_minimal() +
+  labs(x = "Genre", y = "Number of votes", title = "Movies")
+```
+
+
+
+```{r}
+mpg %>% 
+  summary()
+```
