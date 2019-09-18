@@ -2,56 +2,20 @@
 title: "Introduction to R - Part 6"
 author: "Katarzyna Kedzierska"
 date: "18 September 2019"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    css: xaringan-themer.css
+output: html_notebook
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(message = FALSE,
-                      dpi = 300, 
-                      out.height = "300px", 
-                      out.width = "300px")
+```{r setup}
+needed_packages <- c("tidyverse", "ggsci")
+for (pkg in needed_packages) {
+  if (!require(pkg, quietly = TRUE, character.only = TRUE)) {
+    print(paste0("WARNING! Installing ", pkg))
+    install.packages(pkg)
+  }
+  library(pkg, character.only = TRUE)
+}
 ```
 
-```{r xaringan-themer, include = FALSE}
-library(xaringanthemer)
-mono_light(
-  base_color = "#1c5253",
-  header_font_google = google_font("Josefin Sans"),
-  text_font_google   = google_font("Montserrat", "300", "300i"),
-  code_font_google   = google_font("Droid Mono"),
-  header_h1_font_size = "40px",
-  header_h2_font_size = "30px",
-  header_h3_font_size = "20px", 
-  text_font_size = "20px",
-  code_font_size = "15px"
-)
-```
-
-```{r setup, echo=FALSE, warning=FALSE}
-library(tidyverse)
-```
-
-
-# Catch up
-
-So far we learned:
-
-* about data types and structures;
-* how to write functions;
-* about the logic and the flow;
-* how to create visualisations.
-
-```{r, out.width = 330, out.height = 240, echo = FALSE}
-knitr::include_graphics("./EEW6FhQU0AE7WTK.jpeg")
-```
-
-
-.footnote[[More obnoxious plots here](https://twitter.com/biogeobiochem/status/1172547837046820864)]
-
----
 # Pipes
 
 And we've touched on dplyr syntax.
@@ -80,9 +44,7 @@ me %>%
   leave_house()
 ```
 
-.footnote[Source: [Andrew Heiss](https://twitter.com/andrewheiss/status/1173743447171354624)]
-
----
+Source: [Andrew Heiss](https://twitter.com/andrewheiss/status/1173743447171354624)
 
 # Plan for today
 
@@ -90,8 +52,6 @@ me %>%
 * more `tidyverse`
 
 yay!
-
----
 
 # Better looping
 
@@ -111,8 +71,6 @@ get the following:
 * `sums_row`, `sum_cols`- sum the rows and columns of the matrix
 * `normalized_row` - from each value in the row substract the row' mean and divide the result of substracyion by row' standar deviation
 
----
-
 * `sums_row`
 ```{r}
 sums_row <- c()
@@ -130,44 +88,6 @@ sums_col <- c()
 normalized_row <- mat
 # your code here
 ```
----
-
-* `sums_row`
-```{r}
-sums_row <- c()
-for (i in 1:nrow(mat)) {
-   sums_row <- c(sums_row, sum(mat[i, ]))
-}
-sums_row
-```
-
-* `sums_col`
-```{r}
-sums_col <- c()
-for (i in 1:ncol(mat)) {
-   sums_col <- c(sums_col, sum(mat[, i]))
-}
-sums_col
-```
-
----
-
-* `normalized_row`
-```{r}
-normalized_row <- mat
-for (i in 1:nrow(mat)) {
-  norm_row <- (mat[i, ] - mean(mat[i, ])) / sd(mat[i,])
-  normalized_row[i, ] <- norm_row
-}
-normalized_row[1:3, ]
-```
-
-* `normalized_row`
-```{r}
-normalized_row <- scale(mat)
-normalized_row
-```
----
 
 # `apply`
 Now, let's look how exactly the same thing we can do using `apply`
@@ -178,42 +98,24 @@ Now, let's look how exactly the same thing we can do using `apply`
 * `margin` - `1` - perform operation rowwise, `2` - columnwise and `c(1,2)` - both, row and columnwise
 * `fun` - function to apply to each row/column
 
----
-
-* `sums_row`
-```{r}
-sums_row <- c()
-for (i in 1:nrow(mat)) {
-   sums_row <- c(sums_row, sum(mat[i, ]))
-}
-sums_row
-```
-
-or
-
 ```{r}
 sums_row_apply <- apply(mat, 1, sum)
+sums_row_apply
 ```
 
 ```{r}
 all(sums_row == sums_row_apply)
 ```
 
----
-
 * `sums_col`
 ```{r, eval = FALSE}
 sums_col_apply <- apply()
 ```
 
----
-
-* `sums_col`
 ```{r}
-sums_col_apply <- apply(mat, 2, sum)
+all(sums_col == sums_col_apply)
 ```
 
----
 We can also define more complex functions:
 
 * `normalized_row`
@@ -224,8 +126,6 @@ normalized_row_apply <- apply(mat, 1, function(row) (row - mean(row)) / sd(row))
 ```{r}
 all(normalized_row_apply == normalized_row)
 ```
-
----
 
 # `lapply`
 
@@ -257,10 +157,61 @@ sout <- sapply(colnames(mat), function(colname) {
 sout
 ```
 
----
 # Others
 
 * `vapply(x, fun, fun.value)` - perform an operation on each element in the vector
+# More tidyverse
+
+```{r}
+library(tidyverse)
+data(starwars)
+starwars
+```
+
+## Revision
+
+### summarise
+
+```{r}
+starwars %>% 
+  summarise(median_height = median(height),
+            median_mass = median(mass))
+```
+
+### group_by
+
+```{r}
+starwars %>%
+  group_by(gender) %>%
+  summarise(median_height = median(height),
+            median_mass = median(mass))
+```
+
+### mutate
+
+```{r}
+starwars %>%
+  mutate(height_in = height / 2.54)
+```
+
+### filter
+
+```{r}
+starwars %>%
+  group_by(gender) %>%
+  filter(!is.na(gender)) %>%
+  summarise(median_height = median(height),
+            median_mass = median(mass))
+```
+
+### top_n
+
+```{r}
+starwars %>%
+  group_by(gender) %>%
+  top_n(1, height)
+```
+
 
 ```{r}
 vapply(1:ncol(mat), function(i) sd(mat[,i]), c(1))
@@ -274,31 +225,15 @@ fac <- factor(rep_len(1:3, n), levels = 1:5)
 table(fac)
 tapply(1:n, fac, sum)
 ```
----
-# Others
 
-* `mapply(fun, MoreArgs)`
+`mapply(fun, ..., MoreArgs)`
+* `fun` - function to be performed
+* `...` - arguments to vectorize over 
+* `MoreArgs` - list of other arguments to function, constant oens
 
 ```{r}
 mapply(rep, times = 1:4, MoreArgs = list(x = 42))
 ```
-
-* `parallel::mclapply(x, fun, mc.cores)` 
-
-Works similiarrly to lapply, but uses multiple cores.
-
-```{r}
-system.time(lapply(1:3, 
-                   function(x) Sys.sleep(5)))
-```
-
-```{r}
-system.time(mclapply(1:3, 
-                     function(x) Sys.sleep(5), 
-                     mc.cores = 3))
-```
-
----
 
 # More tidyverse
 
@@ -351,4 +286,8 @@ starwars %>%
   group_by(gender) %>%
   top_n(1, height)
 ```
+
+
+
+
 

@@ -1,6 +1,7 @@
 #!/bin/Rscript
 required_packages <- c("tidyverse", "ggsci")
-required_biopackages <- c("airway", "DESeq2", "Rsamtools", "GenomicFeatures",
+required_biopackages <- c("airway", "DESeq2", 
+                          "Rsamtools", "GenomicFeatures",
                           "GenomicAlignments","BiocParallel")
 
 tmp <- 

@@ -9,6 +9,10 @@ library("Rsamtools")
 library("GenomicFeatures")
 library("GenomicAlignments")
 library("BiocParallel")
+library("DESeq2")
+library("tidyverse")
+library("ggsci")
+theme_set(theme_classic())
 in_dir <- system.file("extdata", package = "airway", mustWork = TRUE)
 ```
 
@@ -48,12 +52,13 @@ se <- summarizeOverlaps(features = ebg, reads = bam_files,
 ```{r}
 dir.create("data")
 lapply(colnames(assay(se)), function(x) {
+  sample_name <- gsub("_subset.bam", "", x)
   assay(se) %>%
     as.data.frame() %>%
-    dplyr::select(x) %>%
-    write_tsv(., paste0("data/", gsub("_subset.bam", "", x), ".txt"))
+    dplyr::select(sample_name = x) %>% 
+    rownames_to_column("gene") %>%
+    write_tsv(., paste0("data/", sample_name, ".txt"))
 })
-
 ```
 
 ```{r}
