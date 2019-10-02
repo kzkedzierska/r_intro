@@ -403,6 +403,7 @@ tapply(1:n, fac, sum)
 ## 51 57 45 NA NA
 ```
 ---
+
 # Others
 
 * `mapply(fun, MoreArgs)`
@@ -424,6 +425,35 @@ mapply(rep, times = 1:4, MoreArgs = list(x = 42))
 ## 
 ## [[4]]
 ## [1] 42 42 42 42
+```
+---
+# Others
+
+* `parallel::mclapply(x, fun, mc.cores)` 
+
+Works similiarrly to lapply, but uses multiple cores.
+
+
+```r
+system.time(lapply(1:3, 
+                   function(x) Sys.sleep(5)))
+```
+
+```
+##    user  system elapsed 
+##   0.005   0.000  15.013
+```
+
+
+```r
+system.time(parallel::mclapply(1:3, 
+                     function(x) Sys.sleep(5), 
+                     mc.cores = 3))
+```
+
+```
+##    user  system elapsed 
+##   0.015   0.012   5.028
 ```
 
 ---
@@ -453,6 +483,116 @@ starwars
 ## 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
 ## # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
 ## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+## Revision
+
+### summarise
+
+
+```r
+starwars %&gt;% 
+  summarise(median_height = median(height),
+            median_mass = median(mass))
+```
+
+```
+## # A tibble: 1 x 2
+##   median_height median_mass
+##           &lt;int&gt;       &lt;dbl&gt;
+## 1            NA          NA
+```
+
+### group_by
+
+
+```r
+starwars %&gt;%
+  group_by(gender) %&gt;%
+  summarise(median_height = median(height),
+            median_mass = median(mass))
+```
+
+```
+## # A tibble: 5 x 3
+##   gender        median_height median_mass
+##   &lt;chr&gt;                 &lt;int&gt;       &lt;dbl&gt;
+## 1 &lt;NA&gt;                     97          32
+## 2 female                   NA          NA
+## 3 hermaphrodite           175        1358
+## 4 male                     NA          NA
+## 5 none                     NA          NA
+```
+
+### mutate
+
+
+```r
+starwars %&gt;%
+  mutate(height_in = height / 2.54)
+```
+
+```
+## # A tibble: 87 x 14
+##    name  height  mass hair_color skin_color eye_color birth_year gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+##  1 Luke…    172    77 blond      fair       blue            19   male  
+##  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
+##  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
+##  4 Dart…    202   136 none       white      yellow          41.9 male  
+##  5 Leia…    150    49 brown      light      brown           19   female
+##  6 Owen…    178   120 brown, gr… light      blue            52   male  
+##  7 Beru…    165    75 brown      light      blue            47   female
+##  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
+##  9 Bigg…    183    84 black      light      brown           24   male  
+## 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
+## # … with 77 more rows, and 6 more variables: homeworld &lt;chr&gt;,
+## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;,
+## #   height_in &lt;dbl&gt;
+```
+
+### filter
+
+
+```r
+starwars %&gt;%
+  group_by(gender) %&gt;%
+  filter(!is.na(gender)) %&gt;%
+  summarise(median_height = median(height),
+            median_mass = median(mass))
+```
+
+```
+## # A tibble: 4 x 3
+##   gender        median_height median_mass
+##   &lt;chr&gt;                 &lt;int&gt;       &lt;dbl&gt;
+## 1 female                   NA          NA
+## 2 hermaphrodite           175        1358
+## 3 male                     NA          NA
+## 4 none                     NA          NA
+```
+
+### top_n
+
+
+```r
+starwars %&gt;%
+  group_by(gender) %&gt;%
+  top_n(1, height)
+```
+
+```
+## # A tibble: 5 x 13
+## # Groups:   gender [5]
+##   name  height  mass hair_color skin_color eye_color birth_year gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+## 1 C-3PO    167    75 &lt;NA&gt;       gold       yellow           112 &lt;NA&gt;  
+## 2 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…
+## 3 IG-88    200   140 none       metal      red               15 none  
+## 4 Yara…    264    NA none       white      yellow            NA male  
+## 5 Taun…    213    NA none       grey       black             NA female
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;
 ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
