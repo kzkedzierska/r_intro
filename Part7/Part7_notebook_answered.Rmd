@@ -43,10 +43,10 @@ summary(starwars[,1:10])
 ## summarise
 
 ```{r}
-# this will not work, can you fix it?
-starwars %>%
-  summarise(median_height = quantile(height, 0.9),
-            median_mass = quantile(mass, 0.9))
+# this will not work because of missing data
+# starwars %>% 
+#   summarise(median_height = quantile(height, 0.9),
+#             median_mass = quantile(mass, 0.9))
 ```
 
 Be aware of how you deal with missing data. You may be tempted, and sometise it's understandable choice, to use simply use `na.rm = TRUE`. Be warned though, given calculation can be refferred to only subset of your data (i.e. the one that is not missing).
@@ -65,7 +65,6 @@ starwars %>%
   summarise(median_height = quantile(height, 0.9),
             median_mass = quantile(mass, 0.9))
 ```
-
 ```{r}
 starwars %>% 
   na.omit() %>%
@@ -73,6 +72,10 @@ starwars %>%
             median_mass = quantile(mass, 0.9))
 ```
 will give 3 different results. Why?
+
+* `na.rm = TRUE` will result in removal of only the missing value for a cerain calculation;   
+* `filter(!is.na(height), !is.na(mass))` will remove all rows with `NA` in the height column or mass;
+* `na.omit()` will remove rows with at least one `NA`.
 
 ## group_by
 
@@ -194,50 +197,80 @@ starwars %>%
 6. List the most represented species from each homeworld.  
 
 ```{r}
-# your code goes here :)
+starwars %>% 
+  mutate(out = mass>1000) %>%
+  replace_na(list(out = FALSE)) %>%
+  ggplot(., aes(height, mass, color = out, shape = out)) +
+  geom_point(size = 5) +
+  scale_color_aaas() +
+  theme(legend.position = "none")
 ```
 
 1 - Which specie is the heaviest?  
 
 ```{r}
-# your code goes here :)
+starwars %>%
+  group_by(species) %>%
+  summarise(med_mass = median(mass, na.rm = TRUE)) %>%
+  top_n(1, med_mass)
 ```
 
 2 - Who's the tallest?  
 
 ```{r}
-# your code goes here :)
+starwars %>% 
+  top_n(1, height)
 ```
 
 3 - Who is the thinnest? (lowest mass to height ratio)  
 
 ```{r}
-# your code goes here :)
+starwars %>%
+  mutate(ratio = mass / height) %>%
+  top_n(-1, ratio)
 ```
 
 4 - Who is an outlier on the height to mass ratio plot below. 
 
 
 ```{r}
-# your code goes here :)
+starwars %>%
+  select(name, species, mass) %>%
+  top_n(1, mass)
 ```
 
 5 - Who appeared in all movies?  
 
 ```{r}
-# your code goes here :)
+starwars %>%
+  unnest(films) %>%
+  group_by(name) %>%
+  summarise(n_films = n()) %>%
+  ungroup() %>%
+  top_n(1, n_films)
 ```
 
 Who appeared in the least number of movies? 
 
 ```{r}
-# your code goes here :)
+starwars %>%
+  unnest(films) %>%
+  group_by(name) %>%
+  summarise(n_films = n()) %>%
+  ungroup() %>%
+  top_n(-1, n_films)
 ```
 
 6 - List the most represented species from each homeworld.  
 
 ```{r}
-# your code goes here :)
+
+starwars %>%
+  group_by(homeworld, species) %>%
+  summarise(n_beings = n()) %>%
+  group_by(species) %>%
+  top_n(1, n_beings)
+
 ```
 
 ## More excercises 
@@ -245,12 +278,36 @@ Who appeared in the least number of movies?
 Column `starships` stores information of starships given charater piloted. It stores the names of those starships as a `list`. Firstly, create a new column `n_pilots` which stores number of pilots of each straship. Secondly, list all the characters that piloted the same starship together with that starship name.
 
 ```{r}
-# your code goes here :)
+starwars %>%
+  unnest(starships) %>%
+  group_by(starships) %>%
+  mutate(n_pilots = n())  %>%
+  filter(n_pilots > 1) %>%
+  select(name, starships, n_pilots) %>%
+  arrange(-n_pilots, starships, name) %>%
+  ##ungroup() %>%
+  nest(name)
+
+
+starwars %>%
+  unnest(starships) %>%
+  group_by(starships) %>%
+  mutate(n_pilots = n()) %>%
+  filter(n_pilots > 1) %>%
+  select(name, starships, n_pilots) %>%
+  arrange(-n_pilots, starships, name) %>%
+  nest(name)
 ```
 ---
 
 Do the same for the `vehicles` column.
 
 ```{r}
-# your code goes here :)
+starwars %>%
+  unnest(vehicles) %>%
+  group_by(vehicles) %>%
+  mutate(n_pilots = n())  %>%
+  filter(n_pilots > 1) %>%
+  select(name, vehicles, n_pilots) %>%
+  arrange(-n_pilots, vehicles, name)
 ```
