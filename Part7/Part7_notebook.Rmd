@@ -159,7 +159,8 @@ starwars %>%
 2. Who's the tallest?  
 3. Who is the thinnest? (lowest mass to height ratio)  
 4. Who is an outlier on the height to mass ratio plot below. 
-5. Who has appeared in all movies? Who has appeared in the least movies?
+5. Who has appeared in all movies? Who has appeared in the least movies?  
+6. List the most represented species from each homeworld.  
 
 ```{r, echo=FALSE, out.height="40%", out.width="60%"}
 starwars %>% 
@@ -171,11 +172,25 @@ starwars %>%
   theme(legend.position = "none")
 ```
 
-
-List the most represented species from each homeworld.
+1. Which specie is the heaviest?  
 
 ```{r}
-# your code here
+starwars %>%
+  select(name, species, mass) %>%
+  top_n(1, mass)
+```
+
+2. Who's the tallest?  
+
+```{r}
+starwars %>% 
+  top_n(1, height)
+```
+
+3. Who is the thinnest? (lowest mass to height ratio)  
+
+```{r}
+
 ```
 
 

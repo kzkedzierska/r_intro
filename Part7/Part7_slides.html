@@ -383,7 +383,8 @@ starwars %&gt;%
 2. Who's the tallest?  
 3. Who is the thinnest? (lowest mass to height ratio)  
 4. Who is an outlier on the height to mass ratio plot below. 
-5. Who has appeared in all movies? Who has appeared in the least movies?
+5. Who has appeared in all movies? Who has appeared in the least movies?  
+6. List the most represented species from each homeworld.  
 
 
 ```
@@ -395,25 +396,252 @@ starwars %&gt;%
 
 ---
 
-List the most represented species from each homeworld.
+
+1 - Which specie is the heaviest?  
 
 
 ```r
-# your code here
+starwars %&gt;%
+  group_by(species) %&gt;%
+  mutate(med_mass = median(mass, na.rm = TRUE)) %&gt;%
+  top_n(1, med_mass)
+```
+
+```
+## # A tibble: 81 x 14
+## # Groups:   species [32]
+##    name  height  mass hair_color skin_color eye_color birth_year gender
+##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+##  1 Luke…    172    77 blond      fair       blue            19   male  
+##  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
+##  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
+##  4 Dart…    202   136 none       white      yellow          41.9 male  
+##  5 Leia…    150    49 brown      light      brown           19   female
+##  6 Owen…    178   120 brown, gr… light      blue            52   male  
+##  7 Beru…    165    75 brown      light      blue            47   female
+##  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
+##  9 Bigg…    183    84 black      light      brown           24   male  
+## 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
+## # … with 71 more rows, and 6 more variables: homeworld &lt;chr&gt;,
+## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;,
+## #   med_mass &lt;dbl&gt;
+```
+
+---
+
+2 - Who's the tallest?  
+
+
+```r
+starwars %&gt;% 
+  top_n(1, height)
+```
+
+```
+## # A tibble: 1 x 13
+##   name  height  mass hair_color skin_color eye_color birth_year gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+## 1 Yara…    264    NA none       white      yellow            NA male  
+## # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;
+```
+
+---
+
+3 - Who is the thinnest? (lowest mass to height ratio)  
+
+
+```r
+starwars %&gt;%
+  mutate(ratio = mass / height) %&gt;%
+  top_n(-1, ratio)
+```
+
+```
+## # A tibble: 1 x 14
+##   name  height  mass hair_color skin_color eye_color birth_year gender
+##   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+## 1 Ratt…     79    15 none       grey, blue unknown           NA male  
+## # … with 6 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;, ratio &lt;dbl&gt;
+```
+
+---
+
+4 - Who is an outlier on the height to mass ratio plot below. 
+
+
+
+```r
+starwars %&gt;%
+  select(name, species, mass) %&gt;%
+  top_n(1, mass)
+```
+
+```
+## # A tibble: 1 x 3
+##   name                  species  mass
+##   &lt;chr&gt;                 &lt;chr&gt;   &lt;dbl&gt;
+## 1 Jabba Desilijic Tiure Hutt     1358
+```
+
+---
+
+5 - Who has appeared in all movies?  
+
+
+```r
+starwars %&gt;%
+  unnest(films) %&gt;%
+  group_by(name) %&gt;%
+  summarise(n_films = n()) %&gt;%
+  ungroup() %&gt;%
+  top_n(1, n_films)
+```
+
+```
+## # A tibble: 1 x 2
+##   name  n_films
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 R2-D2       7
+```
+
+Who has appeared in the least movies? 
+
+
+```r
+starwars %&gt;%
+  unnest(films) %&gt;%
+  group_by(name) %&gt;%
+  summarise(n_films = n()) %&gt;%
+  ungroup() %&gt;%
+  top_n(-1, n_films)
+```
+
+```
+## # A tibble: 46 x 2
+##    name              n_films
+##    &lt;chr&gt;               &lt;int&gt;
+##  1 Arvel Crynyd            1
+##  2 Barriss Offee           1
+##  3 BB8                     1
+##  4 Ben Quadinaros          1
+##  5 Bib Fortuna             1
+##  6 Biggs Darklighter       1
+##  7 Bossk                   1
+##  8 Captain Phasma          1
+##  9 Cliegg Lars             1
+## 10 Cordé                   1
+## # … with 36 more rows
 ```
 
 
 ---
 
-Column `starships` stores information of starships given charater piloted. It stores the names of those starships as a `vector`. Firstly, create a new column `n_starships` which stores number of ships each character piloted. Secondly, list all the characters that piloted the same starship together with that starship name. 
+6 - List the most represented species from each homeworld.  
+
 
 ```r
-# your code here
+starwars %&gt;%
+  group_by(homeworld, species) %&gt;%
+  summarise(n_beings = n()) %&gt;%
+  group_by(species) %&gt;%
+  top_n(1, n_beings)
+```
+
+```
+## # A tibble: 41 x 3
+## # Groups:   species [38]
+##    homeworld      species        n_beings
+##    &lt;chr&gt;          &lt;chr&gt;             &lt;int&gt;
+##  1 &lt;NA&gt;           &lt;NA&gt;                  2
+##  2 &lt;NA&gt;           Droid                 2
+##  3 &lt;NA&gt;           Yoda's species        1
+##  4 Aleen Minor    Aleena                1
+##  5 Cato Neimoidia Neimodian             1
+##  6 Cerea          Cerean                1
+##  7 Champala       Chagrian              1
+##  8 Coruscant      Tholothian            1
+##  9 Dathomir       Zabrak                1
+## 10 Dorin          Kel Dor               1
+## # … with 31 more rows
+```
+
+
+---
+
+Column `starships` stores information of starships given charater piloted. It stores the names of those starships as a `list`. Firstly, create a new column `n_pilots` which stores number of pilots of each straship. Secondly, list all the characters that piloted the same starship together with that starship name.
+
+
+```r
+#your code here
 ```
 
 Do the same for the `vehicles` column.
 
 ---
+
+Column `starships` stores information of starships given charater piloted. It stores the names of those starships as a `list`. Firstly, create a new column `n_pilots` which stores number of pilots of each straship. Secondly, list all the characters that piloted the same starship together with that starship name.
+
+
+```r
+starwars %&gt;%
+  unnest(starships) %&gt;%
+  group_by(starships) %&gt;%
+  mutate(n_pilots = n())  %&gt;%
+  filter(n_pilots &gt; 1) %&gt;%
+  select(name, starships, n_pilots) %&gt;%
+  arrange(-n_pilots, starships, name)
+```
+
+```
+## # A tibble: 24 x 3
+## # Groups:   starships [9]
+##    name              starships         n_pilots
+##    &lt;chr&gt;             &lt;chr&gt;                &lt;int&gt;
+##  1 Chewbacca         Millennium Falcon        4
+##  2 Han Solo          Millennium Falcon        4
+##  3 Lando Calrissian  Millennium Falcon        4
+##  4 Nien Nunb         Millennium Falcon        4
+##  5 Biggs Darklighter X-wing                   4
+##  6 Jek Tono Porkins  X-wing                   4
+##  7 Luke Skywalker    X-wing                   4
+##  8 Wedge Antilles    X-wing                   4
+##  9 Chewbacca         Imperial shuttle         3
+## 10 Han Solo          Imperial shuttle         3
+## # … with 14 more rows
+```
+---
+
+Do the same for the `vehicles` column.
+
+
+```r
+starwars %&gt;%
+  unnest(vehicles) %&gt;%
+  group_by(vehicles) %&gt;%
+  mutate(n_pilots = n())  %&gt;%
+  filter(n_pilots &gt; 1) %&gt;%
+  select(name, vehicles, n_pilots) %&gt;%
+  arrange(-n_pilots, vehicles, name)
+```
+
+```
+## # A tibble: 6 x 3
+## # Groups:   vehicles [3]
+##   name           vehicles              n_pilots
+##   &lt;chr&gt;          &lt;chr&gt;                    &lt;int&gt;
+## 1 Leia Organa    Imperial Speeder Bike        2
+## 2 Luke Skywalker Imperial Speeder Bike        2
+## 3 Luke Skywalker Snowspeeder                  2
+## 4 Wedge Antilles Snowspeeder                  2
+## 5 Obi-Wan Kenobi Tribubble bongo              2
+## 6 Qui-Gon Jinn   Tribubble bongo              2
+```
+
+
+---
+
 
 Now, lets switch datasets. The following excercises and data description below are taken from [R for Data Science by Hadley Wickham](https://r4ds.had.co.nz). Deffo check it out!
 

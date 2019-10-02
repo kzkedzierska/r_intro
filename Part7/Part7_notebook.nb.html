@@ -232,10 +232,26 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubmVlZGVkX3BhY2thZ2VzIDwtIGMoXFx0aWR5dmVyc2VcXCwgXFxnZ3NjaVxcKVxuZm9yIChwa2cgaW4gbmVlZGVkX3BhY2thZ2VzKSB7XG4gIGlmICghcmVxdWlyZShwa2csIHF1aWV0bHkgPSBUUlVFLCBjaGFyYWN0ZXIub25seSA9IFRSVUUpKSB7XG4gICAgcHJpbnQocGFzdGUwKFxcV0FSTklORyEgSW5zdGFsbGluZyBcXCwgcGtnKSlcbiAgICBpbnN0YWxsLnBhY2thZ2VzKHBrZylcbiAgfVxuICBsaWJyYXJ5KHBrZywgY2hhcmFjdGVyLm9ubHkgPSBUUlVFKVxufVxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r needed_packages &lt;- c(, ) for (pkg in needed_packages) { if (!require(pkg, quietly = TRUE, character.only = TRUE)) { print(paste0(! Installing , pkg)) install.packages(pkg) } library(pkg, character.only = TRUE) }</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmVlZGVkX3BhY2thZ2VzIDwtIGMoXCJ0aWR5dmVyc2VcIiwgXCJnZ3NjaVwiKVxuZm9yIChwa2cgaW4gbmVlZGVkX3BhY2thZ2VzKSB7XG4gIGlmICghcmVxdWlyZShwa2csIHF1aWV0bHkgPSBUUlVFLCBjaGFyYWN0ZXIub25seSA9IFRSVUUpKSB7XG4gICAgcHJpbnQocGFzdGUwKFwiV0FSTklORyEgSW5zdGFsbGluZyBcIiwgcGtnKSlcbiAgICBpbnN0YWxsLnBhY2thZ2VzKHBrZylcbiAgfVxuICBsaWJyYXJ5KHBrZywgY2hhcmFjdGVyLm9ubHkgPSBUUlVFKVxufVxuYGBgIn0= -->
+<pre class="r"><code>needed_packages &lt;- c(&quot;tidyverse&quot;, &quot;ggsci&quot;)
+for (pkg in needed_packages) {
+  if (!require(pkg, quietly = TRUE, character.only = TRUE)) {
+    print(paste0(&quot;WARNING! Installing &quot;, pkg))
+    install.packages(pkg)
+  }
+  library(pkg, character.only = TRUE)
+}</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXHUwMDFiWzM3beKUgOKUgCBcdTAwMWJbMW1BdHRhY2hpbmcgcGFja2FnZXNcdTAwMWJbMjJtIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2UgMS4yLjEg4pSA4pSAXHUwMDFiWzM5bVxuXHUwMDFiWzM3bVx1MDAxYlszMm3inJRcdTAwMWJbMzdtIFx1MDAxYlszNG1nZ3Bsb3QyXHUwMDFiWzM3bSAzLjEuMCAgICAgICBcdTAwMWJbMzJt4pyUXHUwMDFiWzM3bSBcdTAwMWJbMzRtcHVycnIgIFx1MDAxYlszN20gMC4zLjIgIFxuXHUwMDFiWzMybeKclFx1MDAxYlszN20gXHUwMDFiWzM0bXRpYmJsZSBcdTAwMWJbMzdtIDIuMS4zICAgICAgIFx1MDAxYlszMm3inJRcdTAwMWJbMzdtIFx1MDAxYlszNG1kcGx5ciAgXHUwMDFiWzM3bSAwLjguMC5cdTAwMWJbMzFtMVx1MDAxYlszN21cblx1MDAxYlszMm3inJRcdTAwMWJbMzdtIFx1MDAxYlszNG10aWR5ciAgXHUwMDFiWzM3bSAwLjguMyAgICAgICBcdTAwMWJbMzJt4pyUXHUwMDFiWzM3bSBcdTAwMWJbMzRtc3RyaW5nclx1MDAxYlszN20gMS40LjAgIFxuXHUwMDFiWzMybeKclFx1MDAxYlszN20gXHUwMDFiWzM0bXJlYWRyICBcdTAwMWJbMzdtIDEuMy4xICAgICAgIFx1MDAxYlszMm3inJRcdTAwMWJbMzdtIFx1MDAxYlszNG1mb3JjYXRzXHUwMDFiWzM3bSAwLjQuMCAgXHUwMDFiWzM5bVxuXHUwMDFiWzM3beKUgOKUgCBcdTAwMWJbMW1Db25mbGljdHNcdTAwMWJbMjJtIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2VfY29uZmxpY3RzKCkg4pSA4pSAXG5cdTAwMWJbMzFt4pyWXHUwMDFiWzM3bSBcdTAwMWJbMzRtZHBseXJcdTAwMWJbMzdtOjpcdTAwMWJbMzJtZmlsdGVyKClcdTAwMWJbMzdtIG1hc2tzIFx1MDAxYlszNG1zdGF0c1x1MDAxYlszN206OmZpbHRlcigpXG5cdTAwMWJbMzFt4pyWXHUwMDFiWzM3bSBcdTAwMWJbMzRtZHBseXJcdTAwMWJbMzdtOjpcdTAwMWJbMzJtbGFnKClcdTAwMWJbMzdtICAgIG1hc2tzIFx1MDAxYlszNG1zdGF0c1x1MDAxYlszN206OmxhZygpXHUwMDFiWzM5bVxuIn0= -->
+<pre><code>[37m── [1mAttaching packages[22m ───────────────────────────────────────────────── tidyverse 1.2.1 ──[39m
+[37m[32m✔[37m [34mggplot2[37m 3.1.0       [32m✔[37m [34mpurrr  [37m 0.3.2  
+[32m✔[37m [34mtibble [37m 2.1.3       [32m✔[37m [34mdplyr  [37m 0.8.0.[31m1[37m
+[32m✔[37m [34mtidyr  [37m 0.8.3       [32m✔[37m [34mstringr[37m 1.4.0  
+[32m✔[37m [34mreadr  [37m 1.3.1       [32m✔[37m [34mforcats[37m 0.4.0  [39m
+[37m── [1mConflicts[22m ──────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[37m [34mdplyr[37m::[32mfilter()[37m masks [34mstats[37m::filter()
+[31m✖[37m [34mdplyr[37m::[32mlag()[37m    masks [34mstats[37m::lag()[39m</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <div id="more-tidyverse" class="section level1">
@@ -248,6 +264,13 @@ data(starwars)
 starwars %&gt;% 
   head()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MTMsIm5yb3ciOjZ9LCJyZGYiOiJINHNJQUFBQUFBQUFBODFWelU0Yk1SQmVrbXdnUWJTMHRPclZEMENRZ0JkSUlGU0FLS0NBS2c1VnFiTTd5VnB4N01qcnNPVEdVL1FWZXVtcFQ5QnpYNmUzSHFEanhGNnlTOUp5UXF6a0hjLy96R2Z2VHF0NXNWVzlxSHFlVi9DSy9vSlhLT0syVk1EWGdsZnlLb1plZTE1eERUY3J1Rlp4bGEzaXhkR3dCK1NzTjBvbzc0R3lVbiszdG4xNjRwaldWcTI1WlpubEpsVTZJaDlwbUJvdkh3R2o1RVIxcWFCV1ZEbEpRSkFqcW1LYnNvenJPNjV2dUw3ZytvWHJLNjRmcGdTanI1L1ZQZlBVV3o4bmRNSjZkV3JwL3MyRWZ2YmNNOTJHMytaU2hDYnpIVDRwblNoTFFncElEWlZNaEt0OHpLeVRyb0pSTG1DcFE1bHJzTlNWUEhRdVNjUTBySk0ySDZZaHh5TEhjTmFOZEpiSlJaNXlMWStBYzVsWXJxZ2duS25JRkQzeGQ3QnRXM2crV1ZxM01EVi9iNXNuMVIvT2hLM1VweHptb1RiVzJYSTZNTVU1citsSVMrZFVTOGxTblBPOGYwemJVczR6Ym5DOFRwU0tCL3JjS2U4UCs2bVIzMVNTaFRPWmpOa014dlBXN0owMDBYMnJYR3ZCRllndUVOa2hPc0tQZ3VuSXFsNjNRQStWY0pwRENKblZ2RHRIZnE4L1lBb2R0R0k5aU1rT0RYcFdYVzJRWTBqSXZoeTRYbDhaaC9kU0JVQWFDZTJCaUhOTnZtbG9qUUZjcmwyODJCQzdPb3p6YVVTRmxuM3lBUVFONEltS245UzQrS3hyL0EvQXBTZUY2cG5jcXVJalR1d2ZKV2I3bXY1cUN1NkhlQ1prRWc4QTdnZkMyNFArQUJTam5KeE41R1FITzdCKzNoeTY4RmpuV1VXVUwyb0pFMTNMcmFZaDRtaW9OWitYMnFWOGVYNndSeHJoRlJVQmhPUjY4NkY1WnBiNmd2YkI0YnVTemhnVXVtb2ltQm9DK0xlTUhkTFZDS2ZLWlNDNWRGaFY0eDRUR1VrRlJwQTFhVE1jdVpjam9FNVM3b0s0aDdzU3lUNGtVcVV6YWhHUEkyRHA4Zm9keHZ1T1dicUNpQVU4VlZaaWpWTTZZb000MzJYQVRkMVpwS29oMVhTam8weXZXZk1LVHFnTkI0eVorSVViZk9FMCtZUGtObWU4S0FlYVNYTkhDK1kwbDNKWkZwUkpOUmJNT0t5aE1HbkNXaEFOUmErMm1UT2R0MSt4Ky9MVWZtVlNWdUhPcGxoeThPTEhNRFc1UUtuMExIeE8yOEJkRzlodFRMdk9jREdoU3R6ZndoZG1aaHRBTmdhS0NYY2JxaWlOTjdUVTFFV3A0bGs3eVJncTcvWXZCOU1RWWRBSkFBQT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["int"],"align":["right"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hair_color"],"name":[4],"type":["chr"],"align":["left"]},{"label":["skin_color"],"name":[5],"type":["chr"],"align":["left"]},{"label":["eye_color"],"name":[6],"type":["chr"],"align":["left"]},{"label":["birth_year"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["gender"],"name":[8],"type":["chr"],"align":["left"]},{"label":["homeworld"],"name":[9],"type":["chr"],"align":["left"]},{"label":["species"],"name":[10],"type":["chr"],"align":["left"]},{"label":["films"],"name":[11],"type":["list"],"align":["right"]},{"label":["vehicles"],"name":[12],"type":["list"],"align":["right"]},{"label":["starships"],"name":[13],"type":["list"],"align":["right"]}],"data":[{"1":"Luke Skywalker","2":"172","3":"77","4":"blond","5":"fair","6":"blue","7":"19.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [5]>","12":"<chr [2]>","13":"<chr [2]>"},{"1":"C-3PO","2":"167","3":"75","4":"NA","5":"gold","6":"yellow","7":"112.0","8":"NA","9":"Tatooine","10":"Droid","11":"<chr [6]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"R2-D2","2":"96","3":"32","4":"NA","5":"white, blue","6":"red","7":"33.0","8":"NA","9":"Naboo","10":"Droid","11":"<chr [7]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Darth Vader","2":"202","3":"136","4":"none","5":"white","6":"yellow","7":"41.9","8":"male","9":"Tatooine","10":"Human","11":"<chr [4]>","12":"<chr [0]>","13":"<chr [1]>"},{"1":"Leia Organa","2":"150","3":"49","4":"brown","5":"light","6":"brown","7":"19.0","8":"female","9":"Alderaan","10":"Human","11":"<chr [5]>","12":"<chr [1]>","13":"<chr [0]>"},{"1":"Owen Lars","2":"178","3":"120","4":"brown, grey","5":"light","6":"blue","7":"52.0","8":"male","9":"Tatooine","10":"Human","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"}],"options":{"columns":{"min":{},"max":[10],"total":[13]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -262,6 +285,13 @@ starwars %&gt;%
   summarise(median_height = median(height),
             median_mass = median(mass))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFVWTdDSUJSOHBWb2ptNnFKNTdBZm5zRVQrT1hmaG0xWlMyekJVSXorNlZrODRaNUE5ejBLaWVGOXdEQWRacGp1ZDRjdFAzQUFZSkJQTTJBNXdnbkRKWU1KekdtL0FlUnJMd0FvaVhpQW53WGgreC9CMlRPNU5OV2lsd09DbGI4NGttVXZHeVgwZHl2VnNYV0IvQXBrTDRZaE5hazdUM3FUU1BKR09GSDlXdlJQNUhOcnJsWE1wWWN5ZXVnYkI3ZFhJcDZaczFOR281UlJ0eUpKeVN4RmVXS2N6NC9MaTZhWVpsTzNGMzNhYkJOcEdYRDJnZGtZejk3QnFnaFdoZFJIcFdVc0xLMDFOaDQ2OFNPN2NGaGdOMSt0T2x1bDQ3L2p5QTZWTTA1RUhhOU5GeGxmR2w3L1ZQNGsxdUlCQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["median_height"],"name":[1],"type":["int"],"align":["right"]},{"label":["median_mass"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"NA","2":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -271,6 +301,13 @@ starwars %&gt;%
   summarise(median_height = median(height, na.rm = TRUE),
             median_mass = median(mass, na.rm = TRUE))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFTNjdDSUJTOXBWb2p4ay9pT3V4QU4rREFGZmdtemd5MjJCSmJNQlNqUXhmMUZ2QldwdTlDSVZGSWdNdTVoM000N0hlSE5UMVFBQ0NRRGhNZ0taWURna3NDQXhqYi9RR1FMaDBCWU9vYUFMODRaN2JlL3Z4QlA3NHVEU1ZyZVlmRndsM3N3V25MUzhIa3NlYWlxbzBISng1c1dkZkZJa1hqUUNjU1FGb3l3L0t6UnYySVB0YnFuZ2RmKzFEeXhPV05BN2RYUkI2cHF4RktJcFhZYkZua2ttaHI1Y05DMUp6ZnBMVXBWMFY5azVmVkpxS0dQMG8rYXRMYms3ZVh5cnhVeG1VbEpBK0J1ZFpLaDBQRFRyenhoeGxtYzlIeXF4WXkvQjFGdE11Tk1pendhS0dhZ0xqUThQb0hzUWNEY2VJQkFBQT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["median_height"],"name":[1],"type":["int"],"align":["right"]},{"label":["median_mass"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"180","2":"79"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -284,6 +321,13 @@ starwars %&gt;%
   summarise(median_height = median(height, na.rm = TRUE),
             median_mass = median(mass, na.rm = TRUE))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6NX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVJ2VTdETUJCMm5EZ29RUzFJUEVjelZCMFlNekF4SW9adXlDVFh4Q0t4SThjVmpMd0VyOERLeUN2d1RrZ3RaOGVXUWs3NmN1ZnZQdDFmSHU3MjIzeWZFMElvaVZsRWFJeGhRdkVUa1lSazFyOFJFdDlnWURQWENJYkl6bWhla0I2ZzV4MzQxNm9GM2ZPaDFhb1dKcERKVEpCSUpjRUtmU21PK0VSOEliNFJQNGkxelpVbGNWYmVUMEg1Y1R2NVI4L3o5eW40UHkrVHZJZlJ6eHFIR1J1UU5lZ3dZdysxNFBLcEJkRzB4cE9YbnV6NU9DNUxWcDBqWGNsQTVqVTN2RGhvN0xhUVoxcTlGbUVLdXlhMWcrTEJmdEdkRnVJTE5SaWhKRXFwUFhLNjZCSnAyOG9SazgyVFYwZHAyOVNicWozS2w4MXVJVjM1bU0zaWVHcFB6NzVVR2c0RXNoRXkvQ01HV3F0d0xkYnhaK2o4WTQyN3VkV0tRUXNaYnBjak94WkdHUjUwZWFXNndMaWx5ZWtQRVV1K21Hc0NBQUE9In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["median_height"],"name":[2],"type":["int"],"align":["right"]},{"label":["median_mass"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"NA","2":"97","3":"32.0"},{"1":"female","2":"166","3":"52.5"},{"1":"hermaphrodite","2":"175","3":"1358.0"},{"1":"male","2":"183","3":"80.0"},{"1":"none","2":"200","3":"140.0"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[5]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -297,6 +341,13 @@ starwars %&gt;%
   select(name, height, height_in) %&gt;%
   head()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUF3dHlpVERpaXVCaVlHQmdZbUJtWldSZ1lnWXlXWmlBQkNNREN3TW5pSzVnWUdBV0JqSkFNZ0pBekFhVjRQTXB6VTVWQ002dUxFL015VTR0Z29xeU91c2FCL2pET0VGR3VpNUdVQTYzUzJKUlNZWkNXR0lLWERHM1QycG1vb0ovVVhwaVhpSlVpTk8vUERWUHdTZXhxQmpJNFFWYng4Q3dCb2lYQTNFQ0VKOEM0bWxBdkFua0JKQzhROERiMjl2ejd1NTJDTWkvdjcvdTd4OEhwNmVucCt2RjdIUUlmbmk0blUvR3dzRVhSQlk4Y2doczVSTFJDRmlJNWovVzVKekU0bUtvMzJDQ1hDbUpKWWw2YVVXSnVhbG95am1MOHN2MThvRGlNUGN4TlFDSi8vLy8vMEkzRjZaSUFCeDJFRUVXa0NDVXpaYVJtcG1lVVFJekY4S0x6OHdEY3Y2aG1jV2VYMUNTbVo4SE5JMUpHQm9reUs1bExBSTVHU3dBQWNpUy9LVjVJRXRUZEpNelN2T3lkVTNSbFBKQzJXeEliR2FJOVN6LzBXS2NMVFV2UFRNUDVuN1cxS0tpZkhpMDV5UW1wZWJBVWdZd2pNQysxeXNveXN5RCtaQUxLRnFzVjVKZmtnaFR4NVdjbndNVEFYdWE0UjhBR1JCWnNwQUNBQUE9In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["int"],"align":["right"]},{"label":["height_in"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Luke Skywalker","2":"172","3":"67.71654"},{"1":"C-3PO","2":"167","3":"65.74803"},{"1":"R2-D2","2":"96","3":"37.79528"},{"1":"Darth Vader","2":"202","3":"79.52756"},{"1":"Leia Organa","2":"150","3":"59.05512"},{"1":"Owen Lars","2":"178","3":"70.07874"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -311,6 +362,13 @@ starwars %&gt;%
   summarise(median_height = median(height),
             median_mass = median(mass))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6NH0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVJPMDdFTUJDZGZORUdaVUhpQWx4Z1UxQWd5aFJVbEloaU8yU1NTV0tSMkpIakZaUmNndnR4RUxUQmpqMVN5QlI1NHpkUE0yOG16NC9IdSt5WUFVQUlVUkpBR0prMERzMG5nQmgyRmo4Qm9odVQyTXExcmZwQzJ1REFldlN2dkVNMXNMRlRzdWFheUhnbGlJVVVhSEJ2OHhKdndVYUpQdzRianh3b25PNnBkUHozZzhNWFZ5elpsNWY5ODVvSU51RGtmVWJrczBWUm95S2ZBOWFjaWRjT2VkdHBUMTU2Y21EVHRHMVo5UXU1dENReXE1bG1SYVBNdEkxOHArUkhRUzV5ZTFacmRKN25Yd1BuamZoQ2pwcExZYVNoUFhDNm1SSW9PMm9oWEt5TFZ5ZGh4OVNIcWp1Sjk4UDlScHI3UEY3bGtSc2Z6cjVWU2dkQzBYSkIveWxCcFNSZEsrblpHL2Irc1RlN0xhc1ZvK0tDYnBjWmRpcTAxSXgwV1NWN1lwYWw0ZndIV2hrdm9tY0NBQUE9In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["median_height"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["median_mass"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"169","3":"52.5"},{"1":"hermaphrodite","2":"175","3":"1358.0"},{"1":"male","2":"183","3":"80.0"},{"1":"none","2":"200","3":"140.0"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[4]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -323,6 +381,13 @@ starwars %&gt;%
   group_by(gender) %&gt;%
   top_n(1, height)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImdyb3VwZWRfZGYiLCJ0YmxfZGYiLCJ0YmwiLCJkYXRhLmZyYW1lIl0sIm5jb2wiOjEzLCJucm93Ijo1fSwicmRmIjoiSDRzSUFBQUFBQUFBQTVVVVMyNFRNZFQ1VEQ2RFVpb0NZanNISUZuQWdpNWJXa1Fwb3BRUWlTSWhWYzdNUzJ6aXNVY2VUME5XVk55QkM3Qmh5UlZZY2dIdXdSNnB4VTdzU1dkSTFUS1M1LzIvZm42RHZlT0gvckdQRUtxaW1sZEIxWnBHNjFYOXE2QTZhaHY0RWFGYVZ5TWRmVGIxOGF6QTIrMDlPbnBsaVhzSGVEVEN3UjZrbE5FUE5BeUdOSlBnTko4LzYyMXRXZUxXT3l3eHNPQklpTEZsTlljNDQ4RmJzRUU4ZmI3cDgxMmZuenFCbG9hLzlOa3dzdTNCRDJTKzdTOWJTNGpQRnZEVGIvTnZmblV3VHhhaDlvWCtjcmdNV2VlQ3c1VjRzZEQ2UkxESTRwc1RDY0I3Q3ZNSHdVaUtHWGNseHFBd2M4U01VSlY3MUJiemtzZkdIQmdUTTBjSmlmbkU2ZGNrUkd2VnZCSEQ0VFR2dzN1MHJQK3o3VWNmM2F3UFMyY2RBakxHQ1pFaXVwVHE1VWJFbURtOE1ZWUZWU3lpTmNSS0NKcGJ0QTh4Qy9ZenBYQXBWdk4xcG9OUjdMeTl3REhsb2p4TmUxSlFWM2pkdUZrbmFGbFhydTJ0cFM5Tkk5UzFaUnF2RFN1L3U2UFRDYWVCR0FlS1FMRExkSUdwbGQwWmFzNFJ3VnlKT0hnSkhJZXVrdTRBVGtIZmlETjdReFZ4UmdOUW1lUk9jZ0FSdFpMN3h0M1RPS0ZTR3loSnA1QUdUOHlGTGNYK1RuQUlzMkJmSks2UHRXdnp1RHJZdjk0cTE2VlJWRnNYdEtpeHZuWEZOcU1id1AvVUwrd2VMMlE0VFV1SitSRld1RCtXT0lhU2Vscy95RDdYZkdOaU5rbjFUUC8wSVA0cCszVkttd3RGTi8zR281MVJBblJDMU9vdHBHNXFmSUtwUEFrRkU5SngwaW5sQlU0YjVsQlVHVkdweU1rY3NPTTBKc0FqeUEySWlHRW1aTDVtbW1rQ0ljMUgxUnRURmp1aWRRcUVoaXdYdGxPRlpVcG9ZZ282TDFYYUZJbWlnbXRSdGJ0NEY4VmVWcVRKYnNGWTNZSVQzczY0YVVuVUMwbkdwNzNISmRXT3hiMUxlR2Nadm42Qml1K3dvWi9UYWxONElHWGVHNC9oRWJqTnVXRldxcm1iZmlJcGQvMzNOVGZ0SzdIYXNMN3VydU1zaWtibmZ3Ry9ERUdWeWdZQUFBPT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["int"],"align":["right"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hair_color"],"name":[4],"type":["chr"],"align":["left"]},{"label":["skin_color"],"name":[5],"type":["chr"],"align":["left"]},{"label":["eye_color"],"name":[6],"type":["chr"],"align":["left"]},{"label":["birth_year"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["gender"],"name":[8],"type":["chr"],"align":["left"]},{"label":["homeworld"],"name":[9],"type":["chr"],"align":["left"]},{"label":["species"],"name":[10],"type":["chr"],"align":["left"]},{"label":["films"],"name":[11],"type":["list"],"align":["right"]},{"label":["vehicles"],"name":[12],"type":["list"],"align":["right"]},{"label":["starships"],"name":[13],"type":["list"],"align":["right"]}],"data":[{"1":"C-3PO","2":"167","3":"75","4":"NA","5":"gold","6":"yellow","7":"112","8":"NA","9":"Tatooine","10":"Droid","11":"<chr [6]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Jabba Desilijic Tiure","2":"175","3":"1358","4":"NA","5":"green-tan, brown","6":"orange","7":"600","8":"hermaphrodite","9":"Nal Hutta","10":"Hutt","11":"<chr [3]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"IG-88","2":"200","3":"140","4":"none","5":"metal","6":"red","7":"15","8":"none","9":"NA","10":"Droid","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Yarael Poof","2":"264","3":"NA","4":"none","5":"white","6":"yellow","7":"NA","8":"male","9":"Quermia","10":"Quermian","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"},{"1":"Taun We","2":"213","3":"NA","4":"none","5":"grey","6":"black","7":"NA","8":"female","9":"Kamino","10":"Kaminoan","11":"<chr [1]>","12":"<chr [0]>","13":"<chr [0]>"}],"options":{"columns":{"min":{},"max":[10],"total":[13]},"rows":{"min":[10],"max":[10],"total":[5]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -336,6 +401,13 @@ starwars %&gt;%
   arrange(name) %&gt;%
   head()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVJ2VTdETUJCMjg5T3FnWlpLZllHOFFETXdNU2FBaEJBRGlJTFU5WnFZMW9wclYwNUt5UVRQd2lNZ0JnWWtlQ1JtaGdiYnNhVVNTMmZmZmQvNS9OMzU5bngySE13Q2hKQ0RYTCtESEZlNm5pTzNEdkpRWDUxUENMbGo2U2htSksxcmlHNlM1bk1RSmdxU2pJUVhRQ2tCZzR3U0JqbGg0VFN2dGtCemJETVBFL0dJYVhnbUtsWmxCanRJS2dyaEZLY2JZYStQVDRIUThFYmdvdVFpdkJZTFlDRGhnVmFBMEx1MEQybWZMMGl2TjJsZjBvYUtqKysrTlJoZk5tUjgzNXpQUDJydnZjWlhMLy9pVnN0K1NxRW9UTHNXRERJb0lYb1FzTUt0OUw3ZzI0aEp2REQ2SEZXOXJ1dmZkbDJiTk5MamJFQlBnWGFrUzB3V3k5SXlxMGJGcmxXbXg5Y2w0VXhTenRoTVkxOW9SeWkxR21qV1BubTBZZXE5YkpJdU55eWZuTFJTQjhidjd2bHU4N3hYdC84ZnN3VmhWcnFQaGVEMmkzMEtjMHhOTUpUajBZMUhhMEdZYlM2UWFCR1Z2QVNiRjZTY1drUTNqWFovbEZyUlVaNENBQUE9In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["int"],"align":["right"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Ackbar","2":"180","3":"83"},{"1":"Adi Gallia","2":"184","3":"50"},{"1":"Anakin Skywalker","2":"188","3":"84"},{"1":"Arvel Crynyd","2":"NA","3":"NA"},{"1":"Ayla Secura","2":"178","3":"55"},{"1":"Bail Prestor Organa","2":"191","3":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -349,6 +421,13 @@ starwars %&gt;%
   arrange(name) %&gt;%
   head()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUE1MVJ6VzZETUF3MnYxc2p0VVBxQy9RRnltRzMzWW8wYWRwMVAxS3ZocVlRa1lZcVFMdmQ5bWg3cmgzS0VnZ1ZSZXRsa2NEMjl6bTI4L25sY1gxUDFnUUFiSEE4QzJ4SHVhNnRmaGE0TU5IMkE4Q1pLMGN6Z2ZwOFEvaFJrc2NvLzR4SXRHR0xKK1NjNFZVa2lBVG1UQ3hlODg4ajhwektxL2lvYjBaWm1sVW1jbmRZbHY5aUFHYWFXVzIvUUovVjIzZG5VK2pzczdHcDRkL0JuQXQ1SnJJNGhnSjNWQmVjYWgxMWV0TTBQNk5FTCtGZDEyQUFrZzFXR0c2bHVqOU83MnNHcmZSbWNBMGEvL2FBa21ITSs5ZzdJSzlWRlRpTkt0MFUrNG9WUXRXeTU2Mk1seU5ZV2wvU0F0MFprbmUxMEMwM3l5U3JSYjU4R0tWT2plOFBmS2RyN3pianRWR1JNbkdlbGtwWjlCdjNPTWFVbTJDbUJHM2ZIdTRsRS8zS2lFTExzQ29xN1BOSVV2QWVhUjhOcDE5WC9GNk16UUlBQUE9PSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[2],"type":["chr"],"align":["left"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Ackbar","2":"height","3":"180"},{"1":"Ackbar","2":"mass","3":"83"},{"1":"Adi Gallia","2":"height","3":"184"},{"1":"Adi Gallia","2":"mass","3":"50"},{"1":"Anakin Skywalker","2":"height","3":"188"},{"1":"Anakin Skywalker","2":"mass","3":"84"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -365,6 +444,13 @@ starwars %&gt;%
   arrange(name) %&gt;%
   head()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUE1MVJTMnJETUJBZC85SkdrR0RJQlhLQm1MWW5pS0ZRdXUwSHNoMS9ZZ3NyY3BEdHBOMzFhRDFYRjNFbFd3Nk9hRFlWMkRQejNtaG05T2JsY2ZOQU5nUUFiSEE4QzJ4SHVxNHRmeGE0TUZYMkE4QlpTRWN4dnZ3bW1waUVjUkdoK0RNaVlVS1hUOGdZeGF1SUgzSXNLRisrRnA5SFpFVXFydUpHM3p5bFdWN3J5TjFoVmYyTEFaZ3JacjM5QW5YV2I5Kzl6YUMzejlwbW1uOEhmUzdrbVlyeUdIRGNwYXJnVE9tbzB0dTIvVEVTdlpqMVhmMFJTQktzTWRnS2VkOU1IMnI2bmZSNmNBVnEvL2FBZ21MRWh0ZzdJR3RrRlRnWmxXN0tmVTFMTG12WmkwN0d5eEVzcFMvcGdQNk1TYi9ocW1XeWl2T0dGNnY3T3lOM3B2M0p5SGY2L201cjdpM2xHZVhuY1ZNaHltSGxIc01vWlRxWVMwVzd4d2Q3UWZtd015TFJLcWpMR29jOEVwZHNRTHBYdytrWGNFZ1F2TTRDQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["variable"],"name":[2],"type":["chr"],"align":["left"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Ackbar","2":"height","3":"180"},{"1":"Ackbar","2":"mass","3":"83"},{"1":"Adi Gallia","2":"height","3":"184"},{"1":"Adi Gallia","2":"mass","3":"50"},{"1":"Anakin Skywalker","2":"height","3":"188"},{"1":"Anakin Skywalker","2":"mass","3":"84"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -379,6 +465,13 @@ starwars %&gt;%
   arrange(name) %&gt;%
   head()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVNTMDdETUJCMWZxMGFhQldwRjhnRkdxbWNJQUVraEZpQUtFamRUaE0zdGVJNmxaTlNzb0t6Y0JLT3doRllzMml3WTF0cU0xTHNtVGR2WnV6blBOOHVyL3lsanhDeWtlTlp5SGFFNjlwaXNaQ0xSbkovUjhpWkNrZG1BdkVOZEdLUXBNVUt1STc4SkNQaEhWQktRQ05Cd3FBZ0xGd1V6UUZvZ1Ezek11RnZtSVkzdkdGTnByR0xwS0VRTG5DNjU2WjhlZzJFaGs4Y1YzWEp3MGVlQXdNQlQrVGtlUDJKcE1VNTBydUtQMzdsT3Z5SzE3SEdmNUEyVmZmeXJmQjdYZmVLenVzZXp2djBwQmp4OGhBeDJPSktCR09wbWFTM2JmdlhJM29waGFyU2VoblF6NkNHYU0xRmZaOXVlZ2FkekFwMEpXaWszbUNTYjJxVDJhcm14MTZiWWJtclNjbEV5cDUyNzNRKzMrTHlFQjJnN0RRWjdKbWNsODNTelo0VnMvbTh4eDFyZjNEaU8ycSsyL1ovRE14eXdzelpQY3g1YWQ3ZW83RENWQWNUSVdkMzgyakhDVE8zOHdWYVJYVlpnK0g1YVVrTjB0MGFIZjhCVmI5NGtyY0NBQUE9In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Ackbar","2":"180","3":"83"},{"1":"Adi Gallia","2":"184","3":"50"},{"1":"Anakin Skywalker","2":"188","3":"84"},{"1":"Arvel Crynyd","2":"NA","3":"NA"},{"1":"Ayla Secura","2":"178","3":"55"},{"1":"Bail Prestor Organa","2":"191","3":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -393,6 +486,13 @@ starwars %&gt;%
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudG1wX2RmXG5gYGAifQ== -->
 <pre class="r"><code>tmp_df</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MiwibnJvdyI6NH0sInJkZiI6Ikg0c0lBQUFBQUFBQUEzMlJTMDdETUJDR0o0NVQxRWlCU2x5QUN6UVNjQVdFV0hYQnFqdGs0a2tUNGRpUjR3SkxUdDVpdTVtS1JoR2JaTjd6L2VQWHArMUR2czBCZ0VHYUpjQlNiM0xtUHdsd1dJYi9OMEI2R3dzZ0xVSTJKcU1QNlEvQXRHR2g4QlBWNEsxVnFLQm9qWjFRT0hwRmc3WVRmV09OYkIwRnVUWWFKOE95U29tQlpwMDMxS0p5eG5yck1NUEU0OVk0aGgzSFRrNmR6eGNVTHpNVTF4dHoxK3JhK0l4cmpTYTJ6Wmt0UGY2SGMwbXZSWWRFejZoOGgxcWlIYjBiNzZHMGI1MW5xRnVVa3dsTGE3NUttaEtVc3RQRmc4cFptRndLSjhyYStwWVpvQ3ZUQjFGK0dBdFB1cGcwSjBGRVB0NFNKc25WWGdjUXVhNmF2ZjVZM3o5T2FvdlI1bjlzZHRyUGlYSkJOMEM5YXpXZFBFTnJEUjBrVStJZEZUMkdseC9WbDcxdHRTT05QanFVempoQmRYbGxGRVdpYWpqOEF0NUdVQlBhQWdBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["genedr_modified"],"name":[2],"type":["fctr"],"align":["left"]}],"data":[{"1":"female","2":"Female"},{"1":"hermaphrodite","2":"Hermaphrodite"},{"1":"none","2":"None"},{"1":"NA","2":"No information"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[4]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -404,6 +504,13 @@ starwars %&gt;%
   arrange(name) %&gt;%
   head()</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUE0MVN5VTdETUJCMXMzUUpLbFR3QS9tQlJtSTVjRzFCd0tsRmNLQTNaSkpKYXVIYWxaTlF1UEhkSEZyR3dTN0ZBZ2xMdHNjejQzbnpubjEzT1R1SlpoRWh4Q04rMkNLZWoyYmc0ZElpQWVucC9aVVEvd2dOSFJuZ2JKdEFOTXBZZkUwNVo5UjQ5a1p2bk1iM2tOYkt1dnBqcWhRcnkzaWE1d0RHNlkvSDU4WThISU9xNDRjNXE2Q3NSY3lwS2swa3ZCaWUzazRkekhZT0M4cmhINmRBU09GR0NPbHRjR0FEL2FhbUp2azlBN1A3amdCdERpL0FTOU5KWUwxWHUyajlHMUFMdXB3cm1TRVQ0OXlmeUppSlhHS2tZbExZeGlhNnNaOFFZY3BwYVJHMnVEbE5LNm5RV2p2cFBTVlhpYUFMMEZjMEZlOGRGMlQyOFpYb2I1eFNVVVlybXVRS3I3akl0c3lnWVc2MTA0bW1pd0pFQnNxY0R2QUVtWHBjSU0rY1FmWkxjeDI1MUd5eHBxZC9UZGRwcGFVSlJVWnE0Z1FIdGREUTJUQ2QxK0o1ZUh6bTVQNWw5NDNkM3JITk00WldpNjRsQktKZzI2OFJnbExTc2dzNWZRSnVlYUF1SlMxc1ltZEZsV0Npc0crTFQ5QklseXdWRTVYVkdiMWxVc21LMmlwUktybjFORnFSOVNmM253OWNjd01BQUE9PSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["gender"],"name":[2],"type":["chr"],"align":["left"]},{"label":["genedr_modified"],"name":[3],"type":["fctr"],"align":["left"]}],"data":[{"1":"Adi Gallia","2":"female","3":"Female"},{"1":"Ayla Secura","2":"female","3":"Female"},{"1":"Barriss Offee","2":"female","3":"Female"},{"1":"BB8","2":"none","3":"None"},{"1":"Beru Whitesun lars","2":"female","3":"Female"},{"1":"C-3PO","2":"NA","3":"No information"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -429,18 +536,62 @@ starwars %&gt;%
 <li>Who is the thinnest? (lowest mass to height ratio)<br />
 </li>
 <li>Who is an outlier on the height to mass ratio plot below.</li>
-<li>Who has appeared in all movies? Who has appeared in the least movies?</li>
+<li>Who has appeared in all movies? Who has appeared in the least movies?<br />
+</li>
+<li>List the most represented species from each homeworld.</li>
 </ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiSm9pbmluZywgYnkgPSBcImdlbmRlclwiXG4ifQ== -->
+<pre><code>Joining, by = &quot;gender&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUEzVlNTMDdETUJCMTgyblZRS0ZTTDVBVFpNRU5BZ2hZRlVRMzNhRnBNZ2xXWGJ0eUFpVTd6czJDWUtlWktyS0twY1RQYjM1dnhuNjlYOTlFNjRneDVqRS9IREhQTnpEd3pHL0VBamExK3hkai9zSUFhNW1iYjl3YnhtbTIzWUR1VDFHYTgvZ1JoT0RRTS9OVXdwYkxlTFZ0RGlDMlNKNlhxZjVFRWQvcFJqWjV6MTJrallCNGhkbUhwdkRGTFhBUnYyaXNhcVhqWjEyQ0JFZEJzQU9CcEtiQXdTbjRCNS96WXY3TVdyNVp0MFoySDJKbkhHT0JSbjNWS3dtSWZSam1uVDJoM3NIK1hhdWMxMFJlTFZYTVphR01wZVpLa29TbGt1aVVDRE1CRlZVNDFTMGdNNE13Nk5keG4ycDFTQ1RzMEliWVZqd3J1MjNibjZPajN6cXBvaHhxU0FwdFF0ektsR2JlM1hjdjBaS2tva1NabjI3eTJwd3cxMjg3MDJmQk1UOGpicUwydGx1VDA3TnZhT0pJR2RtR29vNDRycUZ4WXJSVVVLTGpNc1N6SG84SDJEOUtDS250Q1dsSFdYSkpuWVNvdGFKR1FnRWJGRlQyQUZweVdkSzltZkYyWTBuMm1zdWFabWpZS3FsVkRSUVdaVW9RMDgyQi9mNEJUK3Z3a2wwREFBQT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["gender"],"name":[2],"type":["chr"],"align":["left"]},{"label":["genedr_modified"],"name":[3],"type":["fctr"],"align":["left"]}],"data":[{"1":"Ackbar","2":"male","3":"NA"},{"1":"Adi Gallia","2":"female","3":"Female"},{"1":"Anakin Skywalker","2":"male","3":"NA"},{"1":"Arvel Crynyd","2":"male","3":"NA"},{"1":"Ayla Secura","2":"female","3":"Female"},{"1":"Bail Prestor Organa","2":"male","3":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>List the most represented species from each homeworld.</p>
+<ol style="list-style-type: decimal">
+<li>Which specie is the heaviest?</li>
+</ol>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyB5b3VyIGNvZGUgaGVyZVxuYGBgIn0= -->
-<pre class="r"><code># your code here</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RhcndhcnMgJT4lIFxuICBtdXRhdGUob3V0ID0gbWFzcz4xMDAwKSAlPiVcbiAgcmVwbGFjZV9uYShsaXN0KG91dCA9IEZBTFNFKSkgJT4lXG4gIGdncGxvdCguLCBhZXMoaGVpZ2h0LCBtYXNzLCBjb2xvciA9IG91dCwgc2hhcGUgPSBvdXQpKSArXG4gIGdlb21fcG9pbnQoc2l6ZSA9IDUpICtcbiAgc2NhbGVfY29sb3JfYWFhcygpICtcbiAgdGhlbWUobGVnZW5kLnBvc2l0aW9uID0gXCJub25lXCIpXG5gYGAifQ== -->
+<pre class="r"><code>starwars %&gt;% 
+  mutate(out = mass&gt;1000) %&gt;%
+  replace_na(list(out = FALSE)) %&gt;%
+  ggplot(., aes(height, mass, color = out, shape = out)) +
+  geom_point(size = 5) +
+  scale_color_aaas() +
+  theme(legend.position = &quot;none&quot;)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-plot-begin eyJjb25kaXRpb25zIjpbWzEsIlJlbW92ZWQgMjggcm93cyBjb250YWluaW5nIG1pc3NpbmcgdmFsdWVzIChnZW9tX3BvaW50KS4iXV0sImhlaWdodCI6NDMyLjYzMjksInNpemVfYmVoYXZpb3IiOjAsIndpZHRoIjo3MDB9 -->
+<p><img src="data:image/png;base64,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" /></p>
+<!-- rnb-plot-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol start="2" style="list-style-type: decimal">
+<li>Who’s the tallest?</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFQVy9DTUJDOWZMaUlTS0JJVlhmK0FKSGFwWXdNREZYSHFnT3JZOXhpYXV6SWRnUmovMFQvTHZTYzJCTDRCdnY1M2ZQZHUvdlliRitxYlFVQU9SUWtnN3hBV09aNFpGREMxTjluZ09JUmdjL1VONG1uZDlxMmRMSGhWa2h4RUd6eEtYckRFMUg1MWp1SDk5eHo2NzhWakhIWGdUQkpyVTArVmp2cWFQTmw2SkVuOHFuUnAwWWg3Ny9NdlBOZlBLNFlhZDBvcWdmM3daQW5BNTdZampPQmtwQTZqall1U1oySjdwelFDbE81M3dOSm5HWW1JZXBlK1NhN0pkdjM2bWY1L09ySEdmSmp6QUxPYm5BeDlpeXZvUllKdFI2NCtoWXFHaWFTdGx5R3h4ejNNRXpZZEVZb0YvZUdyRzJjZGpUcUtxWmxaSWJoNFBJUEM0c2ljL1lCQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species"],"name":[2],"type":["chr"],"align":["left"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Jabba Desilijic Tiure","2":"Hutt","3":"1358"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ol start="3" style="list-style-type: decimal">
+<li>Who is the thinnest? (lowest mass to height ratio)</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Column <code>starships</code> stores information of starships given charater piloted. It stores the names of those starships as a <code>vector</code>. Firstly, create a new column <code>n_starships</code> which stores number of ships each character piloted. Secondly, list all the characters that piloted the same starship together with that starship name.</p>
@@ -533,7 +684,7 @@ flights</code></pre>
 <!-- rnb-chunk-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWN0aW9uIHRvIFIgLSBQYXJ0IDciCmF1dGhvcjogIkthdGFyenluYSBLZWR6aWVyc2thIgpkYXRlOiAiMiBPY3RvYmVyIDIwMTkiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCmBgYHtyIHNldHVwfQpuZWVkZWRfcGFja2FnZXMgPC0gYygidGlkeXZlcnNlIiwgImdnc2NpIikKZm9yIChwa2cgaW4gbmVlZGVkX3BhY2thZ2VzKSB7CiAgaWYgKCFyZXF1aXJlKHBrZywgcXVpZXRseSA9IFRSVUUsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkpIHsKICAgIHByaW50KHBhc3RlMCgiV0FSTklORyEgSW5zdGFsbGluZyAiLCBwa2cpKQogICAgaW5zdGFsbC5wYWNrYWdlcyhwa2cpCiAgfQogIGxpYnJhcnkocGtnLCBjaGFyYWN0ZXIub25seSA9IFRSVUUpCn0KYGBgCgojIE1vcmUgdGlkeXZlcnNlCgpgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZT1GQUxTRX0KbGlicmFyeSh0aWR5dmVyc2UpCmRhdGEoc3RhcndhcnMpCnN0YXJ3YXJzICU+JSAKICBoZWFkKCkKYGBgCgoKIyBSZXZpc2lvbgoKIyMgc3VtbWFyaXNlCgpgYGB7cn0Kc3RhcndhcnMgJT4lIAogIHN1bW1hcmlzZShtZWRpYW5faGVpZ2h0ID0gbWVkaWFuKGhlaWdodCksCiAgICAgICAgICAgIG1lZGlhbl9tYXNzID0gbWVkaWFuKG1hc3MpKQpgYGAKCgpgYGB7cn0Kc3RhcndhcnMgJT4lIAogIHN1bW1hcmlzZShtZWRpYW5faGVpZ2h0ID0gbWVkaWFuKGhlaWdodCwgbmEucm0gPSBUUlVFKSwKICAgICAgICAgICAgbWVkaWFuX21hc3MgPSBtZWRpYW4obWFzcywgbmEucm0gPSBUUlVFKSkKYGBgCgojIyBncm91cF9ieQoKYGBge3J9CnN0YXJ3YXJzICU+JQogIGdyb3VwX2J5KGdlbmRlcikgJT4lCiAgc3VtbWFyaXNlKG1lZGlhbl9oZWlnaHQgPSBtZWRpYW4oaGVpZ2h0LCBuYS5ybSA9IFRSVUUpLAogICAgICAgICAgICBtZWRpYW5fbWFzcyA9IG1lZGlhbihtYXNzLCBuYS5ybSA9IFRSVUUpKQpgYGAKCiMjIG11dGF0ZQoKYGBge3J9CnN0YXJ3YXJzICU+JQogIG11dGF0ZShoZWlnaHRfaW4gPSBoZWlnaHQgLyAyLjU0KSAlPiUKICBzZWxlY3QobmFtZSwgaGVpZ2h0LCBoZWlnaHRfaW4pICU+JQogIGhlYWQoKQpgYGAKCiMjIGZpbHRlcgoKYGBge3J9CnN0YXJ3YXJzICU+JQogIGdyb3VwX2J5KGdlbmRlcikgJT4lCiAgZmlsdGVyKCFpcy5uYShnZW5kZXIpLCAhaXMubmEoaGVpZ2h0KSwgIWlzLm5hKG1hc3MpKSAlPiUKICBzdW1tYXJpc2UobWVkaWFuX2hlaWdodCA9IG1lZGlhbihoZWlnaHQpLAogICAgICAgICAgICBtZWRpYW5fbWFzcyA9IG1lZGlhbihtYXNzKSkKYGBgCgojIyB0b3BfbgoKYGBge3J9CnN0YXJ3YXJzICU+JQogIGdyb3VwX2J5KGdlbmRlcikgJT4lCiAgdG9wX24oMSwgaGVpZ2h0KQpgYGAKCiMjIGdhdGhlcgoKYGBge3J9CnN0YXJ3YXJzICU+JQogIHNlbGVjdChuYW1lLCBoZWlnaHQsIG1hc3MpICU+JQogIGFycmFuZ2UobmFtZSkgJT4lCiAgaGVhZCgpCmBgYAoKCmBgYHtyfQpzdGFyd2FycyAlPiUKICBzZWxlY3QobmFtZSwgaGVpZ2h0LCBtYXNzKSAlPiUKICBnYXRoZXIoa2V5ID0gdmFyaWFibGUsIAogICAgICAgICB2YWx1ZSA9IHZhbHVlLCAKICAgICAgICAgaGVpZ2h0LCBtYXNzKSAlPiUKICBhcnJhbmdlKG5hbWUpICU+JQogIGhlYWQoKQpgYGAKCgojIyBzcHJlYWQKCmBgYHtyfQpzdGFyd2FycyAlPiUKICBzZWxlY3QobmFtZSwgaGVpZ2h0LCBtYXNzKSAlPiUKICBnYXRoZXIoa2V5ID0gdmFyaWFibGUsIAogICAgICAgICB2YWx1ZSA9IHZhbHVlLCAKICAgICAgICAgaGVpZ2h0LCBtYXNzKSAlPiUKICBhcnJhbmdlKG5hbWUpICU+JQogIGhlYWQoKQpgYGAKCgpgYGB7cn0Kc3RhcndhcnMgJT4lCiAgc2VsZWN0KG5hbWUsIGhlaWdodCwgbWFzcykgJT4lCiAgZ2F0aGVyKGtleSA9IHZhcmlhYmxlLCAKICAgICAgICAgdmFsdWUgPSB2YWx1ZSwgCiAgICAgICAgIGhlaWdodCwgbWFzcykgJT4lCiAgc3ByZWFkKHZhcmlhYmxlLCB2YWx1ZSkgJT4lCiAgYXJyYW5nZShuYW1lKSAlPiUKICBoZWFkKCkKYGBgCgoKIyMgam9pbgoKYGBge3IsIGVjaG89RkFMU0V9CnRtcF9kZiA8LSBkYXRhLmZyYW1lKGdlbmRlciA9IGMoImZlbWFsZSIsICJoZXJtYXBocm9kaXRlIiwgIm5vbmUiLCBOQSksCiAgICAgICAgICAgICAgICAgICAgIGdlbmVkcl9tb2RpZmllZCA9IGMoIkZlbWFsZSIsICJIZXJtYXBocm9kaXRlIiwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIk5vbmUiLCAiTm8gaW5mb3JtYXRpb24iKSkKYGBgCgpgYGB7cn0KdG1wX2RmCmBgYAoKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2U9RkFMU0V9CnN0YXJ3YXJzICU+JQogIHNlbGVjdChuYW1lLCBnZW5kZXIpICU+JQogIHJpZ2h0X2pvaW4odG1wX2RmKSAlPiUKICBhcnJhbmdlKG5hbWUpICU+JQogIGhlYWQoKQpgYGAKCmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlfQpzdGFyd2FycyAlPiUKICBzZWxlY3QobmFtZSwgZ2VuZGVyKSAlPiUKICBmdWxsX2pvaW4odG1wX2RmKSAlPiUKICBhcnJhbmdlKG5hbWUpICU+JQogIGhlYWQoKQpgYGAKCiMgRXhjZXJjaXNlcwoKMS4gV2hpY2ggc3BlY2llIGlzIHRoZSBoZWF2aWVzdD8gIAoyLiBXaG8ncyB0aGUgdGFsbGVzdD8gIAozLiBXaG8gaXMgdGhlIHRoaW5uZXN0PyAobG93ZXN0IG1hc3MgdG8gaGVpZ2h0IHJhdGlvKSAgCjQuIFdobyBpcyBhbiBvdXRsaWVyIG9uIHRoZSBoZWlnaHQgdG8gbWFzcyByYXRpbyBwbG90IGJlbG93LiAKNS4gV2hvIGhhcyBhcHBlYXJlZCBpbiBhbGwgbW92aWVzPyBXaG8gaGFzIGFwcGVhcmVkIGluIHRoZSBsZWFzdCBtb3ZpZXM/CgpgYGB7ciwgZWNobz1GQUxTRSwgb3V0LmhlaWdodD0iNDAlIiwgb3V0LndpZHRoPSI2MCUifQpzdGFyd2FycyAlPiUgCiAgbXV0YXRlKG91dCA9IG1hc3M+MTAwMCkgJT4lCiAgcmVwbGFjZV9uYShsaXN0KG91dCA9IEZBTFNFKSkgJT4lCiAgZ2dwbG90KC4sIGFlcyhoZWlnaHQsIG1hc3MsIGNvbG9yID0gb3V0LCBzaGFwZSA9IG91dCkpICsKICBnZW9tX3BvaW50KHNpemUgPSA1KSArCiAgc2NhbGVfY29sb3JfYWFhcygpICsKICB0aGVtZShsZWdlbmQucG9zaXRpb24gPSAibm9uZSIpCmBgYAoKCkxpc3QgdGhlIG1vc3QgcmVwcmVzZW50ZWQgc3BlY2llcyBmcm9tIGVhY2ggaG9tZXdvcmxkLgoKYGBge3J9CiMgeW91ciBjb2RlIGhlcmUKYGBgCgoKQ29sdW1uIGBzdGFyc2hpcHNgIHN0b3JlcyBpbmZvcm1hdGlvbiBvZiBzdGFyc2hpcHMgZ2l2ZW4gY2hhcmF0ZXIgcGlsb3RlZC4gSXQgc3RvcmVzIHRoZSBuYW1lcyBvZiB0aG9zZSBzdGFyc2hpcHMgYXMgYSBgdmVjdG9yYC4gRmlyc3RseSwgY3JlYXRlIGEgbmV3IGNvbHVtbiBgbl9zdGFyc2hpcHNgIHdoaWNoIHN0b3JlcyBudW1iZXIgb2Ygc2hpcHMgZWFjaCBjaGFyYWN0ZXIgcGlsb3RlZC4gU2Vjb25kbHksIGxpc3QgYWxsIHRoZSBjaGFyYWN0ZXJzIHRoYXQgcGlsb3RlZCB0aGUgc2FtZSBzdGFyc2hpcCB0b2dldGhlciB3aXRoIHRoYXQgc3RhcnNoaXAgbmFtZS4gCmBgYHtyfQojIHlvdXIgY29kZSBoZXJlCmBgYAoKRG8gdGhlIHNhbWUgZm9yIHRoZSBgdmVoaWNsZXNgIGNvbHVtbi4KCgpOb3csIGxldHMgc3dpdGNoIGRhdGFzZXRzLiBUaGUgZm9sbG93aW5nIGV4Y2VyY2lzZXMgYW5kIGRhdGEgZGVzY3JpcHRpb24gYmVsb3cgYXJlIHRha2VuIGZyb20gW1IgZm9yIERhdGEgU2NpZW5jZSBieSBIYWRsZXkgV2lja2hhbV0oaHR0cHM6Ly9yNGRzLmhhZC5jby5ueikuIERlZmZvIGNoZWNrIGl0IG91dCEKClRoZSBkYXRhc2V0IGNvbWVzIGZyb20gYG55Y2ZsaWdodHMxM2AgcGFja2FnZSwgdGhlIGBmbGlnaHRzYCBkYXRhIGZyYW1lIGNvbnRhaW5zIGFsbCAzMzYsNzc2IGZsaWdodHMgdGhhdCBkZXBhcnRlZCBmcm9tIE5ldyBZb3JrIENpdHkgaW4gMjAxMy4gVGhlIGRhdGEgY29tZXMgZnJvbSB0aGUgVVMgQnVyZWF1IG9mIFRyYW5zcG9ydGF0aW9uIFN0YXRpc3RpY3MsIGFuZCBpcyBkb2N1bWVudGVkIGluIGA/ZmxpZ2h0c2AKCmBgYHtyfQppZiAoIXJlcXVpcmUoIm55Y2ZsaWdodHMxMyIsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSwgCiAgICAgICAgICAgICB3YXJuLmNvbmZsaWN0cyA9IEZBTFNFLCBxdWlldGx5ID0gVFJVRSkpIHsKICBwcmludCgiSW5zdGFsbGluZyBueWNmbGlnaHRzMTMgcGFja2FnZS4iKQogIGluc3RhbGwucGFja2FnZXMoIm55Y2ZsaWdodHMxMyIpCn0KICAKbGlicmFyeShueWNmbGlnaHRzMTMpCmZsaWdodHMKYGBgCgoKRmluZCBhbGwgZmxpZ2h0cyB0aGF0ICAKICAqIEhhZCBhbiBhcnJpdmFsIGRlbGF5IG9mIHR3byBvciBtb3JlIGhvdXJzICAKICAqIEZsZXcgdG8gSG91c3RvbiAoSUFIIG9yIEhPVSkgIAogICogV2VyZSBvcGVyYXRlZCBieSBVbml0ZWQsIEFtZXJpY2FuLCBvciBEZWx0YSAgCiAgKiBEZXBhcnRlZCBpbiBzdW1tZXIgKEp1bHksIEF1Z3VzdCwgYW5kIFNlcHRlbWJlcikgIAogICogQXJyaXZlZCBtb3JlIHRoYW4gdHdvIGhvdXJzIGxhdGUsIGJ1dCBkaWRu4oCZdCBsZWF2ZSBsYXRlICAKICAqIFdlcmUgZGVsYXllZCBieSBhdCBsZWFzdCBhbiBob3VyLCBidXQgbWFkZSB1cCBvdmVyIDMwIG1pbnV0ZXMgaW4gZmxpZ2h0ICAKICAqIERlcGFydGVkIGJldHdlZW4gbWlkbmlnaHQgYW5kIDZhbSAoaW5jbHVzaXZlKSAgCgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKCgpBbm90aGVyIHVzZWZ1bCBkcGx5ciBmaWx0ZXJpbmcgaGVscGVyIGlzIGBiZXR3ZWVuKClgLiBXaGF0IGRvZXMgaXQgZG8/IENhbiB5b3UgdXNlIGl0IHRvIHNpbXBsaWZ5IHRoZSBjb2RlIG5lZWRlZCB0byBhbnN3ZXIgdGhlIHByZXZpb3VzIGNoYWxsZW5nZXM/CgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKSG93IG1hbnkgZmxpZ2h0cyBoYXZlIGEgbWlzc2luZyBkZXBfdGltZT8gV2hhdCBvdGhlciB2YXJpYWJsZXMgYXJlIG1pc3Npbmc/IFdoYXQgbWlnaHQgdGhlc2Ugcm93cyByZXByZXNlbnQ/CgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKV2hpY2ggZmxpZ2h0cyB0cmF2ZWxsZWQgdGhlIGxvbmdlc3Q/IFdoaWNoIHRyYXZlbGxlZCB0aGUgc2hvcnRlc3Q/CgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKCldoYXQgZG9lcyB0aGUgb25lX29mKCkgZnVuY3Rpb24gZG8/IFdoeSBtaWdodCBpdCBiZSBoZWxwZnVsIGluIGNvbmp1bmN0aW9uIHdpdGggdGhpcyB2ZWN0b3I/CgpgYGB7cn0KdmFycyA8LSBjKCJ5ZWFyIiwgIm1vbnRoIiwgImRheSIsICJkZXBfZGVsYXkiLCAiYXJyX2RlbGF5IikKIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKCkZpbmQgdGhlIDEwIG1vc3QgZGVsYXllZCBmbGlnaHRzIHVzaW5nIGEgcmFua2luZyBmdW5jdGlvbi4gSG93IGRvIHlvdSB3YW50IHRvIGhhbmRsZSB0aWVzPyBDYXJlZnVsbHkgcmVhZCB0aGUgZG9jdW1lbnRhdGlvbiBmb3IgYG1pbl9yYW5rKClgLgoKYGBge3J9CiMgeW91ciBjb2RlIGdvZXMgaGVyZQpgYGAKCgpXaGljaCBjYXJyaWVyIGhhcyB0aGUgd29yc3QgZGVsYXlzPyBDaGFsbGVuZ2U6IGNhbiB5b3UgZGlzZW50YW5nbGUgdGhlIGVmZmVjdHMgb2YgYmFkIGFpcnBvcnRzIHZzLiBiYWQgY2FycmllcnM/IFdoeS93aHkgbm90PyAoSGludDogdGhpbmsgYWJvdXQgYGZsaWdodHMgJT4lIGdyb3VwX2J5KGNhcnJpZXIsIGRlc3QpICU+JSBzdW1tYXJpc2UobigpKWApCgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYA==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWN0aW9uIHRvIFIgLSBQYXJ0IDciCmF1dGhvcjogIkthdGFyenluYSBLZWR6aWVyc2thIgpkYXRlOiAiMiBPY3RvYmVyIDIwMTkiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCmBgYHtyIHNldHVwfQpuZWVkZWRfcGFja2FnZXMgPC0gYygidGlkeXZlcnNlIiwgImdnc2NpIikKZm9yIChwa2cgaW4gbmVlZGVkX3BhY2thZ2VzKSB7CiAgaWYgKCFyZXF1aXJlKHBrZywgcXVpZXRseSA9IFRSVUUsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSkpIHsKICAgIHByaW50KHBhc3RlMCgiV0FSTklORyEgSW5zdGFsbGluZyAiLCBwa2cpKQogICAgaW5zdGFsbC5wYWNrYWdlcyhwa2cpCiAgfQogIGxpYnJhcnkocGtnLCBjaGFyYWN0ZXIub25seSA9IFRSVUUpCn0KYGBgCgojIE1vcmUgdGlkeXZlcnNlCgpgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZT1GQUxTRX0KbGlicmFyeSh0aWR5dmVyc2UpCmRhdGEoc3RhcndhcnMpCnN0YXJ3YXJzICU+JSAKICBoZWFkKCkKYGBgCgoKIyBSZXZpc2lvbgoKIyMgc3VtbWFyaXNlCgpgYGB7cn0Kc3RhcndhcnMgJT4lIAogIHN1bW1hcmlzZShtZWRpYW5faGVpZ2h0ID0gbWVkaWFuKGhlaWdodCksCiAgICAgICAgICAgIG1lZGlhbl9tYXNzID0gbWVkaWFuKG1hc3MpKQpgYGAKCgpgYGB7cn0Kc3RhcndhcnMgJT4lIAogIHN1bW1hcmlzZShtZWRpYW5faGVpZ2h0ID0gbWVkaWFuKGhlaWdodCwgbmEucm0gPSBUUlVFKSwKICAgICAgICAgICAgbWVkaWFuX21hc3MgPSBtZWRpYW4obWFzcywgbmEucm0gPSBUUlVFKSkKYGBgCgojIyBncm91cF9ieQoKYGBge3J9CnN0YXJ3YXJzICU+JQogIGdyb3VwX2J5KGdlbmRlcikgJT4lCiAgc3VtbWFyaXNlKG1lZGlhbl9oZWlnaHQgPSBtZWRpYW4oaGVpZ2h0LCBuYS5ybSA9IFRSVUUpLAogICAgICAgICAgICBtZWRpYW5fbWFzcyA9IG1lZGlhbihtYXNzLCBuYS5ybSA9IFRSVUUpKQpgYGAKCiMjIG11dGF0ZQoKYGBge3J9CnN0YXJ3YXJzICU+JQogIG11dGF0ZShoZWlnaHRfaW4gPSBoZWlnaHQgLyAyLjU0KSAlPiUKICBzZWxlY3QobmFtZSwgaGVpZ2h0LCBoZWlnaHRfaW4pICU+JQogIGhlYWQoKQpgYGAKCiMjIGZpbHRlcgoKYGBge3J9CnN0YXJ3YXJzICU+JQogIGdyb3VwX2J5KGdlbmRlcikgJT4lCiAgZmlsdGVyKCFpcy5uYShnZW5kZXIpLCAhaXMubmEoaGVpZ2h0KSwgIWlzLm5hKG1hc3MpKSAlPiUKICBzdW1tYXJpc2UobWVkaWFuX2hlaWdodCA9IG1lZGlhbihoZWlnaHQpLAogICAgICAgICAgICBtZWRpYW5fbWFzcyA9IG1lZGlhbihtYXNzKSkKYGBgCgojIyB0b3BfbgoKYGBge3J9CnN0YXJ3YXJzICU+JQogIGdyb3VwX2J5KGdlbmRlcikgJT4lCiAgdG9wX24oMSwgaGVpZ2h0KQpgYGAKCiMjIGdhdGhlcgoKYGBge3J9CnN0YXJ3YXJzICU+JQogIHNlbGVjdChuYW1lLCBoZWlnaHQsIG1hc3MpICU+JQogIGFycmFuZ2UobmFtZSkgJT4lCiAgaGVhZCgpCmBgYAoKCmBgYHtyfQpzdGFyd2FycyAlPiUKICBzZWxlY3QobmFtZSwgaGVpZ2h0LCBtYXNzKSAlPiUKICBnYXRoZXIoa2V5ID0gdmFyaWFibGUsIAogICAgICAgICB2YWx1ZSA9IHZhbHVlLCAKICAgICAgICAgaGVpZ2h0LCBtYXNzKSAlPiUKICBhcnJhbmdlKG5hbWUpICU+JQogIGhlYWQoKQpgYGAKCgojIyBzcHJlYWQKCmBgYHtyfQpzdGFyd2FycyAlPiUKICBzZWxlY3QobmFtZSwgaGVpZ2h0LCBtYXNzKSAlPiUKICBnYXRoZXIoa2V5ID0gdmFyaWFibGUsIAogICAgICAgICB2YWx1ZSA9IHZhbHVlLCAKICAgICAgICAgaGVpZ2h0LCBtYXNzKSAlPiUKICBhcnJhbmdlKG5hbWUpICU+JQogIGhlYWQoKQpgYGAKCgpgYGB7cn0Kc3RhcndhcnMgJT4lCiAgc2VsZWN0KG5hbWUsIGhlaWdodCwgbWFzcykgJT4lCiAgZ2F0aGVyKGtleSA9IHZhcmlhYmxlLCAKICAgICAgICAgdmFsdWUgPSB2YWx1ZSwgCiAgICAgICAgIGhlaWdodCwgbWFzcykgJT4lCiAgc3ByZWFkKHZhcmlhYmxlLCB2YWx1ZSkgJT4lCiAgYXJyYW5nZShuYW1lKSAlPiUKICBoZWFkKCkKYGBgCgoKIyMgam9pbgoKYGBge3IsIGVjaG89RkFMU0V9CnRtcF9kZiA8LSBkYXRhLmZyYW1lKGdlbmRlciA9IGMoImZlbWFsZSIsICJoZXJtYXBocm9kaXRlIiwgIm5vbmUiLCBOQSksCiAgICAgICAgICAgICAgICAgICAgIGdlbmVkcl9tb2RpZmllZCA9IGMoIkZlbWFsZSIsICJIZXJtYXBocm9kaXRlIiwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIk5vbmUiLCAiTm8gaW5mb3JtYXRpb24iKSkKYGBgCgpgYGB7cn0KdG1wX2RmCmBgYAoKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2U9RkFMU0V9CnN0YXJ3YXJzICU+JQogIHNlbGVjdChuYW1lLCBnZW5kZXIpICU+JQogIHJpZ2h0X2pvaW4odG1wX2RmKSAlPiUKICBhcnJhbmdlKG5hbWUpICU+JQogIGhlYWQoKQpgYGAKCmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlfQpzdGFyd2FycyAlPiUKICBzZWxlY3QobmFtZSwgZ2VuZGVyKSAlPiUKICBmdWxsX2pvaW4odG1wX2RmKSAlPiUKICBhcnJhbmdlKG5hbWUpICU+JQogIGhlYWQoKQpgYGAKCiMgRXhjZXJjaXNlcwoKMS4gV2hpY2ggc3BlY2llIGlzIHRoZSBoZWF2aWVzdD8gIAoyLiBXaG8ncyB0aGUgdGFsbGVzdD8gIAozLiBXaG8gaXMgdGhlIHRoaW5uZXN0PyAobG93ZXN0IG1hc3MgdG8gaGVpZ2h0IHJhdGlvKSAgCjQuIFdobyBpcyBhbiBvdXRsaWVyIG9uIHRoZSBoZWlnaHQgdG8gbWFzcyByYXRpbyBwbG90IGJlbG93LiAKNS4gV2hvIGhhcyBhcHBlYXJlZCBpbiBhbGwgbW92aWVzPyBXaG8gaGFzIGFwcGVhcmVkIGluIHRoZSBsZWFzdCBtb3ZpZXM/ICAKNi4gTGlzdCB0aGUgbW9zdCByZXByZXNlbnRlZCBzcGVjaWVzIGZyb20gZWFjaCBob21ld29ybGQuICAKCmBgYHtyLCBlY2hvPUZBTFNFLCBvdXQuaGVpZ2h0PSI0MCUiLCBvdXQud2lkdGg9IjYwJSJ9CnN0YXJ3YXJzICU+JSAKICBtdXRhdGUob3V0ID0gbWFzcz4xMDAwKSAlPiUKICByZXBsYWNlX25hKGxpc3Qob3V0ID0gRkFMU0UpKSAlPiUKICBnZ3Bsb3QoLiwgYWVzKGhlaWdodCwgbWFzcywgY29sb3IgPSBvdXQsIHNoYXBlID0gb3V0KSkgKwogIGdlb21fcG9pbnQoc2l6ZSA9IDUpICsKICBzY2FsZV9jb2xvcl9hYWFzKCkgKwogIHRoZW1lKGxlZ2VuZC5wb3NpdGlvbiA9ICJub25lIikKYGBgCgoxLiBXaGljaCBzcGVjaWUgaXMgdGhlIGhlYXZpZXN0PyAgCgpgYGB7cn0Kc3RhcndhcnMgJT4lCiAgc2VsZWN0KG5hbWUsIHNwZWNpZXMsIG1hc3MpICU+JQogIHRvcF9uKDEsIG1hc3MpCmBgYAoKMi4gV2hvJ3MgdGhlIHRhbGxlc3Q/ICAKCmBgYHtyfQpzdGFyd2FycyAlPiUgCiAgdG9wX24oMSwgaGVpZ2h0KQpgYGAKCjMuIFdobyBpcyB0aGUgdGhpbm5lc3Q/IChsb3dlc3QgbWFzcyB0byBoZWlnaHQgcmF0aW8pICAKCmBgYHtyfQoKYGBgCgoKQ29sdW1uIGBzdGFyc2hpcHNgIHN0b3JlcyBpbmZvcm1hdGlvbiBvZiBzdGFyc2hpcHMgZ2l2ZW4gY2hhcmF0ZXIgcGlsb3RlZC4gSXQgc3RvcmVzIHRoZSBuYW1lcyBvZiB0aG9zZSBzdGFyc2hpcHMgYXMgYSBgdmVjdG9yYC4gRmlyc3RseSwgY3JlYXRlIGEgbmV3IGNvbHVtbiBgbl9zdGFyc2hpcHNgIHdoaWNoIHN0b3JlcyBudW1iZXIgb2Ygc2hpcHMgZWFjaCBjaGFyYWN0ZXIgcGlsb3RlZC4gU2Vjb25kbHksIGxpc3QgYWxsIHRoZSBjaGFyYWN0ZXJzIHRoYXQgcGlsb3RlZCB0aGUgc2FtZSBzdGFyc2hpcCB0b2dldGhlciB3aXRoIHRoYXQgc3RhcnNoaXAgbmFtZS4gCmBgYHtyfQojIHlvdXIgY29kZSBoZXJlCmBgYAoKRG8gdGhlIHNhbWUgZm9yIHRoZSBgdmVoaWNsZXNgIGNvbHVtbi4KCgpOb3csIGxldHMgc3dpdGNoIGRhdGFzZXRzLiBUaGUgZm9sbG93aW5nIGV4Y2VyY2lzZXMgYW5kIGRhdGEgZGVzY3JpcHRpb24gYmVsb3cgYXJlIHRha2VuIGZyb20gW1IgZm9yIERhdGEgU2NpZW5jZSBieSBIYWRsZXkgV2lja2hhbV0oaHR0cHM6Ly9yNGRzLmhhZC5jby5ueikuIERlZmZvIGNoZWNrIGl0IG91dCEKClRoZSBkYXRhc2V0IGNvbWVzIGZyb20gYG55Y2ZsaWdodHMxM2AgcGFja2FnZSwgdGhlIGBmbGlnaHRzYCBkYXRhIGZyYW1lIGNvbnRhaW5zIGFsbCAzMzYsNzc2IGZsaWdodHMgdGhhdCBkZXBhcnRlZCBmcm9tIE5ldyBZb3JrIENpdHkgaW4gMjAxMy4gVGhlIGRhdGEgY29tZXMgZnJvbSB0aGUgVVMgQnVyZWF1IG9mIFRyYW5zcG9ydGF0aW9uIFN0YXRpc3RpY3MsIGFuZCBpcyBkb2N1bWVudGVkIGluIGA/ZmxpZ2h0c2AKCmBgYHtyfQppZiAoIXJlcXVpcmUoIm55Y2ZsaWdodHMxMyIsIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSwgCiAgICAgICAgICAgICB3YXJuLmNvbmZsaWN0cyA9IEZBTFNFLCBxdWlldGx5ID0gVFJVRSkpIHsKICBwcmludCgiSW5zdGFsbGluZyBueWNmbGlnaHRzMTMgcGFja2FnZS4iKQogIGluc3RhbGwucGFja2FnZXMoIm55Y2ZsaWdodHMxMyIpCn0KICAKbGlicmFyeShueWNmbGlnaHRzMTMpCmZsaWdodHMKYGBgCgoKRmluZCBhbGwgZmxpZ2h0cyB0aGF0ICAKICAqIEhhZCBhbiBhcnJpdmFsIGRlbGF5IG9mIHR3byBvciBtb3JlIGhvdXJzICAKICAqIEZsZXcgdG8gSG91c3RvbiAoSUFIIG9yIEhPVSkgIAogICogV2VyZSBvcGVyYXRlZCBieSBVbml0ZWQsIEFtZXJpY2FuLCBvciBEZWx0YSAgCiAgKiBEZXBhcnRlZCBpbiBzdW1tZXIgKEp1bHksIEF1Z3VzdCwgYW5kIFNlcHRlbWJlcikgIAogICogQXJyaXZlZCBtb3JlIHRoYW4gdHdvIGhvdXJzIGxhdGUsIGJ1dCBkaWRu4oCZdCBsZWF2ZSBsYXRlICAKICAqIFdlcmUgZGVsYXllZCBieSBhdCBsZWFzdCBhbiBob3VyLCBidXQgbWFkZSB1cCBvdmVyIDMwIG1pbnV0ZXMgaW4gZmxpZ2h0ICAKICAqIERlcGFydGVkIGJldHdlZW4gbWlkbmlnaHQgYW5kIDZhbSAoaW5jbHVzaXZlKSAgCgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKCgpBbm90aGVyIHVzZWZ1bCBkcGx5ciBmaWx0ZXJpbmcgaGVscGVyIGlzIGBiZXR3ZWVuKClgLiBXaGF0IGRvZXMgaXQgZG8/IENhbiB5b3UgdXNlIGl0IHRvIHNpbXBsaWZ5IHRoZSBjb2RlIG5lZWRlZCB0byBhbnN3ZXIgdGhlIHByZXZpb3VzIGNoYWxsZW5nZXM/CgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKSG93IG1hbnkgZmxpZ2h0cyBoYXZlIGEgbWlzc2luZyBkZXBfdGltZT8gV2hhdCBvdGhlciB2YXJpYWJsZXMgYXJlIG1pc3Npbmc/IFdoYXQgbWlnaHQgdGhlc2Ugcm93cyByZXByZXNlbnQ/CgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKV2hpY2ggZmxpZ2h0cyB0cmF2ZWxsZWQgdGhlIGxvbmdlc3Q/IFdoaWNoIHRyYXZlbGxlZCB0aGUgc2hvcnRlc3Q/CgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKCldoYXQgZG9lcyB0aGUgb25lX29mKCkgZnVuY3Rpb24gZG8/IFdoeSBtaWdodCBpdCBiZSBoZWxwZnVsIGluIGNvbmp1bmN0aW9uIHdpdGggdGhpcyB2ZWN0b3I/CgpgYGB7cn0KdmFycyA8LSBjKCJ5ZWFyIiwgIm1vbnRoIiwgImRheSIsICJkZXBfZGVsYXkiLCAiYXJyX2RlbGF5IikKIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYAoKCkZpbmQgdGhlIDEwIG1vc3QgZGVsYXllZCBmbGlnaHRzIHVzaW5nIGEgcmFua2luZyBmdW5jdGlvbi4gSG93IGRvIHlvdSB3YW50IHRvIGhhbmRsZSB0aWVzPyBDYXJlZnVsbHkgcmVhZCB0aGUgZG9jdW1lbnRhdGlvbiBmb3IgYG1pbl9yYW5rKClgLgoKYGBge3J9CiMgeW91ciBjb2RlIGdvZXMgaGVyZQpgYGAKCgpXaGljaCBjYXJyaWVyIGhhcyB0aGUgd29yc3QgZGVsYXlzPyBDaGFsbGVuZ2U6IGNhbiB5b3UgZGlzZW50YW5nbGUgdGhlIGVmZmVjdHMgb2YgYmFkIGFpcnBvcnRzIHZzLiBiYWQgY2FycmllcnM/IFdoeS93aHkgbm90PyAoSGludDogdGhpbmsgYWJvdXQgYGZsaWdodHMgJT4lIGdyb3VwX2J5KGNhcnJpZXIsIGRlc3QpICU+JSBzdW1tYXJpc2UobigpKWApCgpgYGB7cn0KIyB5b3VyIGNvZGUgZ29lcyBoZXJlCmBgYA==</div>
 
 
 

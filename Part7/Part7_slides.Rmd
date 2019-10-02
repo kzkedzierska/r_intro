@@ -250,7 +250,8 @@ starwars %>%
 2. Who's the tallest?  
 3. Who is the thinnest? (lowest mass to height ratio)  
 4. Who is an outlier on the height to mass ratio plot below. 
-5. Who has appeared in all movies? Who has appeared in the least movies?
+5. Who has appeared in all movies? Who has appeared in the least movies?  
+6. List the most represented species from each homeworld.  
 
 ```{r, echo=FALSE, out.height="40%", out.width="60%"}
 starwars %>% 
@@ -265,23 +266,138 @@ starwars %>%
 
 ---
 
-List the most represented species from each homeworld.
+
+1 - Which specie is the heaviest?  
 
 ```{r}
-# your code here
+starwars %>%
+  group_by(species) %>%
+  mutate(med_mass = median(mass, na.rm = TRUE)) %>%
+  top_n(1, med_mass)
+```
+
+---
+
+2 - Who's the tallest?  
+
+```{r}
+starwars %>% 
+  top_n(1, height)
+```
+
+---
+
+3 - Who is the thinnest? (lowest mass to height ratio)  
+
+```{r}
+starwars %>%
+  mutate(ratio = mass / height) %>%
+  top_n(-1, ratio)
+```
+
+---
+
+4 - Who is an outlier on the height to mass ratio plot below. 
+
+
+```{r}
+starwars %>%
+  select(name, species, mass) %>%
+  top_n(1, mass)
+```
+
+---
+
+5 - Who has appeared in all movies?  
+
+```{r}
+starwars %>%
+  unnest(films) %>%
+  group_by(name) %>%
+  summarise(n_films = n()) %>%
+  ungroup() %>%
+  top_n(1, n_films)
+```
+
+Who has appeared in the least movies? 
+
+```{r}
+starwars %>%
+  unnest(films) %>%
+  group_by(name) %>%
+  summarise(n_films = n()) %>%
+  ungroup() %>%
+  top_n(-1, n_films)
 ```
 
 
 ---
 
-Column `starships` stores information of starships given charater piloted. It stores the names of those starships as a `vector`. Firstly, create a new column `n_starships` which stores number of ships each character piloted. Secondly, list all the characters that piloted the same starship together with that starship name. 
+6 - List the most represented species from each homeworld.  
+
 ```{r}
-# your code here
+
+starwars %>%
+  group_by(homeworld, species) %>%
+  summarise(n_beings = n()) %>%
+  group_by(species) %>%
+  top_n(1, n_beings)
+
+```
+
+
+---
+
+Column `starships` stores information of starships given charater piloted. It stores the names of those starships as a `list`. Firstly, create a new column `n_pilots` which stores number of pilots of each straship. Secondly, list all the characters that piloted the same starship together with that starship name.
+
+```{r}
+#your code here
 ```
 
 Do the same for the `vehicles` column.
 
 ---
+
+Column `starships` stores information of starships given charater piloted. It stores the names of those starships as a `list`. Firstly, create a new column `n_pilots` which stores number of pilots of each straship. Secondly, list all the characters that piloted the same starship together with that starship name.
+
+```{r}
+starwars %>%
+  unnest(starships) %>%
+  group_by(starships) %>%
+  mutate(n_pilots = n())  %>%
+  filter(n_pilots > 1) %>%
+  select(name, starships, n_pilots) %>%
+  arrange(-n_pilots, starships, name) %>%
+  ##ungroup() %>%
+  nest(name)
+
+
+starwars %>%
+  unnest(starships) %>%
+  group_by(starships) %>%
+  mutate(n_pilots = n()) %>%
+  filter(n_pilots > 1) %>%
+  select(name, starships, n_pilots) %>%
+  arrange(-n_pilots, starships, name) %>%
+  nest(name)
+```
+---
+
+Do the same for the `vehicles` column.
+
+```{r}
+starwars %>%
+  unnest(vehicles) %>%
+  group_by(vehicles) %>%
+  mutate(n_pilots = n())  %>%
+  filter(n_pilots > 1) %>%
+  select(name, vehicles, n_pilots) %>%
+  arrange(-n_pilots, vehicles, name)
+```
+
+
+---
+
 
 Now, lets switch datasets. The following excercises and data description below are taken from [R for Data Science by Hadley Wickham](https://r4ds.had.co.nz). Deffo check it out!
 
