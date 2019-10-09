@@ -13,7 +13,8 @@ library("DESeq2")
 library("tidyverse")
 library("ggsci")
 theme_set(theme_classic())
-in_dir <- system.file("extdata", package = "airway", mustWork = TRUE)
+in_dir <- system.file("extdata", package = "airway",
+                      mustWork = TRUE)
 ```
 
 # sample table
@@ -47,7 +48,11 @@ se <- summarizeOverlaps(features = ebg, reads = bam_files,
                         singleEnd = FALSE,
                         ignore.strand = TRUE,
                         fragments = TRUE )
+
+se
 ```
+
+
 
 ```{r}
 dir.create("data")
@@ -62,8 +67,11 @@ lapply(colnames(assay(se)), function(x) {
 ```
 
 ```{r}
-dds <- DESeqDataSetFromMatrix(countData = counts,
-                              colData = col_data,
+count_data <- assay(se)
+colnames(count_data) <- gsub("_subset.bam", "", names(count_data))
+
+dds <- DESeqDataSetFromMatrix(countData = count_data,
+                              colData = sample_table,
                               design = ~ cell + dex)
 ```
 

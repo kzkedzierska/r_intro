@@ -1,0 +1,70 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library("DESeq2")
+library("tidyverse")
+library("ggsci")
+theme_set(theme_classic())
+```
+
+# Read in the data 
+
+```{r}
+count_data <-
+  read_csv("./data/GSE120660_PCamerge_hg38.csv") %>%
+  column_to_rownames("X1")
+
+sample_sheet <-
+  data.frame(sample_names = c("L0A", "L0B", "L0C", 
+                              "L24A", "L24B", "L24C", 
+                              "V0A", "V0B", "V0C",
+                              "V24A", "V24B", "V24C", 
+                              "P0A", "P0B", "P0C", 
+                              "P6A", "P6B", "P6C", 
+                              "P12A", "P12B", "P12C"),
+             cell_lines = c(rep("LNCaP", 6), 
+                            rep("VCaP", 6),
+                            rep("PC3-AR", 9)),
+             timepoints = as.factor(c(rep(c(rep(0, 3), 
+                                            rep(24, 3)), 2),
+                                      rep(0, 3), 
+                                      rep(6, 3), rep(12, 3))))
+```
+
+# Quality check
+
+```{r}
+count_data_mat <- count_data[apply(count_data, 1, var) > 0,]
+pca <- prcomp(t(count_data_mat), scale. = TRUE, center = TRUE)
+var_exp <- pca$sdev^2
+var_exp <- round(var_exp / sum(var_exp) * 100, 1)
+data.frame(principal_component = paste0("PC", 1:length(var_exp)),
+           variance_explained = var_exp,
+           stringsAsFactors = FALSE) %>%
+  mutate(accumulated_variance = cumsum(variance_explained),
+         principal_component = factor(principal_component, 
+                                      levels = principal_component)) %>%
+  #filter(accumulated_variance < 100) %>%
+  ggplot(., aes(x = principal_component, y = variance_explained)) +
+  geom_bar(stat = "identity")
+a_pc <- 1
+b_pc <- 2
+pca_plt <- 
+  pca$x %>%
+  as.data.frame() %>%
+  rownames_to_column("sample_names") %>%
+  left_join(sample_sheet) %>% 
+  ggplot(., aes_string(x = paste0("PC", a_pc), 
+                       y  = paste0("PC", b_pc), 
+                       color = "cell_lines",
+                       shape = "timepoints")) +
+  geom_point() +
+  labs(x = paste0("PC", a_pc, " [", var_exp[a_pc], "%]"),
+       y = paste0("PC", b_pc, " [", var_exp[b_pc], "%]"),
+       title = "PCA") +
+  scale_color_aaas()
+```
+
