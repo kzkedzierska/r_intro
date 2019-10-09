@@ -31,14 +31,51 @@ sample_sheet <-
              timepoints = as.factor(c(rep(c(rep(0, 3), 
                                             rep(24, 3)), 2),
                                       rep(0, 3), 
-                                      rep(6, 3), rep(12, 3))))
+                                      rep(6, 3), rep(12, 3))),
+             treatment = c(rep(c(rep("untreated", 3), rep("treated", 3)), 2),
+                           rep("untreated", 3), rep("treated", 6))) 
 ```
+
+```{r}
+cell_lines_colors <- pal_aaas()(length(unique(sample_sheet$cell_lines)))
+names(cell_lines_colors) <- unique(sample_sheet$cell_lines)
+timepoints_colors <- pal_futurama()(length(unique(sample_sheet$timepoints)))
+names(timepoints_colors) <- unique(sample_sheet$timepoints)
+treatment_colors <- pal_rickandmorty()(length(unique(sample_sheet$treatment)))
+names(treatment_colors) <- unique(sample_sheet$treatment)
+```
+
 
 # Quality check
 
+Do we need all genes? 
+
 ```{r}
-count_data_mat <- count_data[apply(count_data, 1, var) > 0,]
-pca <- prcomp(t(count_data_mat), scale. = TRUE, center = TRUE)
+count_data_mat <- count_data[apply(count_data, 1, var) > 0,] 
+```
+
+
+## Sample dist
+
+```{r}
+norm_count <- vst(as.matrix(count_data_mat))
+sample_dist <- dist(t(norm_count))
+library(ComplexHeatmap)
+ha = HeatmapAnnotation(df = (sample_sheet %>% 
+                               column_to_rownames("sample_names")),
+                       col = list(cell_lines = cell_lines_colors,
+                                  treatent = treatment_colors,
+                                  timepoints = timepoints_colors))
+
+
+Heatmap(as.matrix(sample_dist), col = viridis::viridis(100), 
+        top_annotation = ha)
+```
+
+
+```{r}
+
+pca <- prcomp(t(norm_count))
 var_exp <- pca$sdev^2
 var_exp <- round(var_exp / sum(var_exp) * 100, 1)
 data.frame(principal_component = paste0("PC", 1:length(var_exp)),
@@ -50,6 +87,9 @@ data.frame(principal_component = paste0("PC", 1:length(var_exp)),
   #filter(accumulated_variance < 100) %>%
   ggplot(., aes(x = principal_component, y = variance_explained)) +
   geom_bar(stat = "identity")
+```
+
+```{r}
 a_pc <- 1
 b_pc <- 2
 pca_plt <- 
@@ -66,5 +106,11 @@ pca_plt <-
        y = paste0("PC", b_pc, " [", var_exp[b_pc], "%]"),
        title = "PCA") +
   scale_color_aaas()
+pca_plt
 ```
+
+
+# Differential analysis
+
+Subset for only VCaP, LNCaP and PC-AR andrgen treated at last timepoint.
 
