@@ -1,0 +1,126 @@
+---
+title: "RNA-seq analysis"
+output: html_notebook
+---
+
+```{r setup}
+library("DESeq2")
+library("ComplexHeatmap")
+library("tidyverse")
+library("ggsci")
+theme_set(theme_classic())
+```
+
+# About the data 
+
+[Jividen K, Kedzierska KZ, Yang C, Szlachta K, Ratan A & Paschal BM; _Genomic analysis of DNA repair genes and androgen signaling in prostate cancer_; BMC Cancer 18, 960 (2018)](https://bmccancer.biomedcentral.com/articles/10.1186/s12885-018-4848-x)
+
+The data comes from the paper describing androgen-regulated gene expression. RNA-seq xperiment was performed on 3 prostate cancer cell lines. Two that express androgen receptor (AR): LNCaP and VCaP; and PC3 to which AR expression was introduced by a stable lenti-viral infection of full length AR.  
+
+Relevand *Methods* section:
+
+_For RNA-sequencing experiments, the Qiagen RNeasy kit was used to extract RNA. Library preparation and sequencing was performed by Hudson Alpha. Briefly, RNA integrity and concentration were assessed by a fluorometric assay, indexed libraries were made using the standard polyA method, quality control was used to determine size and concentration, and samples were sequenced using Illumina HiSeq 2500 at a depth of 250 million × 50-bp paired-end reads. Reads were aligned to the hg38 genome (ENSEMBL GRCh38.89) using STAR (release v. 2.5) [14]. Counts were generated using HTSeq (release v. 0.6) [15]_
+
+# Analysis 
+
+## Read in the data 
+
+```{r}
+count_data <-
+  read_csv("./data/GSE120660_PCamerge_hg38.csv") %>%
+  column_to_rownames("X1")
+
+sample_sheet <- 
+  read_tsv("./data/GSE120660_sample_sheet.tsv")
+```
+
+Let us set up consistent coloring for different condition. 
+
+```{r}
+cell_lines_colors <- pal_aaas()(length(unique(sample_sheet$cell_lines)))
+names(cell_lines_colors) <- unique(sample_sheet$cell_lines)
+timepoints_colors <- pal_futurama()(length(unique(sample_sheet$timepoints)))
+names(timepoints_colors) <- unique(sample_sheet$timepoints)
+treatment_colors <- pal_rickandmorty()(length(unique(sample_sheet$treatment)))
+names(treatment_colors) <- unique(sample_sheet$treatment)
+```
+
+# Quality check
+
+Do we need all genes?
+```{r}
+dim(count_data)
+```
+
+Are all genes expressed? Are all contributing equally to understanding differences between groups?
+
+```{r}
+apply(count_data, 1, var) %>%
+  summary()
+```
+
+
+```{r}
+count_data_mat <- 
+  count_data[apply(count_data, 1, var) > 0,] 
+```
+
+## Samples
+
+Let's chcech the distances between saples. 
+
+```{r}
+norm_count <- vst(as.matrix(count_data_mat))
+sample_dist <- dist(t(norm_count))
+
+ha = HeatmapAnnotation(df = (sample_sheet %>% 
+                               column_to_rownames("sample_names")),
+                       col = list(cell_lines = cell_lines_colors,
+                                  treatent = treatment_colors,
+                                  timepoints = timepoints_colors))
+
+
+Heatmap(as.matrix(sample_dist), col = viridis::viridis(100), 
+        top_annotation = ha)
+```
+
+```{r}
+pca <- prcomp(t(norm_count))
+var_exp <- pca$sdev^2
+var_exp <- round(var_exp / sum(var_exp) * 100, 1)
+data.frame(principal_component = paste0("PC", 1:length(var_exp)),
+           variance_explained = var_exp,
+           stringsAsFactors = FALSE) %>%
+  mutate(accumulated_variance = cumsum(variance_explained),
+         principal_component = factor(principal_component, 
+                                      levels = principal_component)) %>%
+  #filter(accumulated_variance < 100) %>%
+  ggplot(., aes(x = principal_component, y = variance_explained)) +
+  geom_bar(stat = "identity")
+```
+
+```{r}
+a_pc <- 1
+b_pc <- 2
+pca_plt <- 
+  pca$x %>%
+  as.data.frame() %>%
+  rownames_to_column("sample_names") %>%
+  left_join(sample_sheet) %>% 
+  ggplot(., aes_string(x = paste0("PC", a_pc), 
+                       y  = paste0("PC", b_pc), 
+                       color = "cell_lines",
+                       shape = "timepoints")) +
+  geom_point() +
+  labs(x = paste0("PC", a_pc, " [", var_exp[a_pc], "%]"),
+       y = paste0("PC", b_pc, " [", var_exp[b_pc], "%]"),
+       title = "PCA") +
+  scale_color_aaas()
+pca_plt
+```
+
+
+# Differential analysis
+
+Subset for only VCaP, LNCaP and PC-AR andrgen treated at last timepoint. 
+

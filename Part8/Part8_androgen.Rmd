@@ -1,40 +1,40 @@
 ---
-title: "R Notebook"
+title: "RNA-seq analysis"
 output: html_notebook
 ---
 
-```{r}
+```{r setup}
 library("DESeq2")
+library("ComplexHeatmap")
 library("tidyverse")
 library("ggsci")
 theme_set(theme_classic())
 ```
 
-# Read in the data 
+# About the data 
+
+[Jividen K, Kedzierska KZ, Yang C, Szlachta K, Ratan A & Paschal BM; _Genomic analysis of DNA repair genes and androgen signaling in prostate cancer_; BMC Cancer 18, 960 (2018)](https://bmccancer.biomedcentral.com/articles/10.1186/s12885-018-4848-x)
+
+The data comes from the paper describing androgen-regulated gene expression. RNA-seq xperiment was performed on 3 prostate cancer cell lines. Two that express androgen receptor (AR): LNCaP and VCaP; and PC3 to which AR expression was introduced by a stable lenti-viral infection of full length AR.  
+
+Relevand *Methods* section:
+
+_For RNA-sequencing experiments, the Qiagen RNeasy kit was used to extract RNA. Library preparation and sequencing was performed by Hudson Alpha. Briefly, RNA integrity and concentration were assessed by a fluorometric assay, indexed libraries were made using the standard polyA method, quality control was used to determine size and concentration, and samples were sequenced using Illumina HiSeq 2500 at a depth of 250 million × 50-bp paired-end reads. Reads were aligned to the hg38 genome (ENSEMBL GRCh38.89) using STAR (release v. 2.5) [14]. Counts were generated using HTSeq (release v. 0.6) [15]_
+
+# Analysis 
+
+## Read in the data 
 
 ```{r}
 count_data <-
   read_csv("./data/GSE120660_PCamerge_hg38.csv") %>%
   column_to_rownames("X1")
 
-sample_sheet <-
-  data.frame(sample_names = c("L0A", "L0B", "L0C", 
-                              "L24A", "L24B", "L24C", 
-                              "V0A", "V0B", "V0C",
-                              "V24A", "V24B", "V24C", 
-                              "P0A", "P0B", "P0C", 
-                              "P6A", "P6B", "P6C", 
-                              "P12A", "P12B", "P12C"),
-             cell_lines = c(rep("LNCaP", 6), 
-                            rep("VCaP", 6),
-                            rep("PC3-AR", 9)),
-             timepoints = as.factor(c(rep(c(rep(0, 3), 
-                                            rep(24, 3)), 2),
-                                      rep(0, 3), 
-                                      rep(6, 3), rep(12, 3))),
-             treatment = c(rep(c(rep("untreated", 3), rep("treated", 3)), 2),
-                           rep("untreated", 3), rep("treated", 6))) 
+sample_sheet <- 
+  read_tsv("./data/GSE120660_sample_sheet.tsv")
 ```
+
+Let us set up consistent coloring for different condition. 
 
 ```{r}
 cell_lines_colors <- pal_aaas()(length(unique(sample_sheet$cell_lines)))
@@ -45,22 +45,33 @@ treatment_colors <- pal_rickandmorty()(length(unique(sample_sheet$treatment)))
 names(treatment_colors) <- unique(sample_sheet$treatment)
 ```
 
-
 # Quality check
 
-Do we need all genes? 
-
+Do we need all genes?
 ```{r}
-count_data_mat <- count_data[apply(count_data, 1, var) > 0,] 
+dim(count_data)
 ```
 
-
-## Sample dist
+Are all genes expressed? Are all contributing equally to understanding differences between groups?
 
 ```{r}
-norm_count <- vst(as.matrix(count_data_mat))
-sample_dist <- dist(t(norm_count))
-library(ComplexHeatmap)
+apply(count_data, 1, var) %>%
+  summary()
+```
+
+```{r}
+count_data_mat <- 
+  count_data[ ] 
+```
+
+## Samples
+
+Let's chcech the distances between saples. 
+
+```{r}
+norm_count <- 
+sample_dist <- 
+
 ha = HeatmapAnnotation(df = (sample_sheet %>% 
                                column_to_rownames("sample_names")),
                        col = list(cell_lines = cell_lines_colors,
@@ -72,10 +83,8 @@ Heatmap(as.matrix(sample_dist), col = viridis::viridis(100),
         top_annotation = ha)
 ```
 
-
 ```{r}
-
-pca <- prcomp(t(norm_count))
+pca <- 
 var_exp <- pca$sdev^2
 var_exp <- round(var_exp / sum(var_exp) * 100, 1)
 data.frame(principal_component = paste0("PC", 1:length(var_exp)),
@@ -112,5 +121,5 @@ pca_plt
 
 # Differential analysis
 
-Subset for only VCaP, LNCaP and PC-AR andrgen treated at last timepoint.
+Subset for only VCaP, LNCaP and PC-AR andrgen treated at last timepoint. 
 
