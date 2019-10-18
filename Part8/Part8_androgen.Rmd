@@ -24,7 +24,7 @@ _For RNA-sequencing experiments, the Qiagen RNeasy kit was used to extract RNA. 
 # Analysis 
 
 ## Read in the data 
-
+  
 ```{r}
 count_data <-
   read_csv("./data/GSE120660_PCamerge_hg38.csv") %>%

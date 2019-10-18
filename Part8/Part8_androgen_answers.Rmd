@@ -1,13 +1,40 @@
 ---
 title: "RNA-seq analysis"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup}
-library("DESeq2")
-library("ComplexHeatmap")
-library("tidyverse")
-library("ggsci")
+required_packages <- c("tidyverse", "ggsci", "eulerr")
+required_biopackages <- c("ComplexHeatmap", "DESeq2", 
+                          "clusterProfiler", "org.Hs.eg.db")
+
+tmp <- 
+  lapply(required_packages, function(pkg) {
+    if(!require(pkg, quietly = TRUE, 
+                character.only = TRUE)) {
+      print(paste0("WARNiNG! Installlig package ", 
+                   pkg))
+      install.packages(pkg)
+    }
+    library(pkg, character.only = TRUE)
+  })
+
+bio_tmp <- 
+  lapply(required_biopackages, function(pkg) {
+    if(!require(pkg, quietly = TRUE, 
+                character.only = TRUE)) {
+      if (!requireNamespace("BiocManager", quietly = TRUE)) {
+        print(paste0("WARNiNG! Installlig package ", 
+                     pkg))
+        install.packages("BiocManager")
+      }
+      BiocManager::install(pkg)
+    }
+    library(pkg, character.only = TRUE)
+  })
+
 theme_set(theme_classic())
 ```
 
@@ -33,6 +60,15 @@ count_data <-
 sample_sheet <- 
   read_tsv("./data/GSE120660_sample_sheet.tsv")
 ```
+
+```{r}
+sample_sheet
+```
+
+```{r}
+count_data 
+```
+
 
 Let us set up consistent coloring for different condition. 
 
@@ -64,6 +100,11 @@ apply(count_data, 1, var) %>%
 count_data_mat <- 
   count_data[apply(count_data, 1, var) > 0,] 
 ```
+
+```{r}
+dim(count_data_mat)
+```
+
 
 ## Samples
 
@@ -107,6 +148,7 @@ pca_plt <-
   as.data.frame() %>%
   rownames_to_column("sample_names") %>%
   left_join(sample_sheet) %>% 
+  mutate(timepoints = factor(timepoints)) %>%
   ggplot(., aes_string(x = paste0("PC", a_pc), 
                        y  = paste0("PC", b_pc), 
                        color = "cell_lines",
@@ -123,4 +165,100 @@ pca_plt
 # Differential analysis
 
 Subset for only VCaP, LNCaP and PC-AR andrgen treated at last timepoint. 
+```{r}
+
+cell_lines <- unique(sample_sheet$cell_lines)
+
+deseq_results <-
+  lapply(cell_lines, function(cell_line) {
+  smpl_sheet <- sample_sheet %>% 
+    mutate(timepoints = factor(timepoints)) %>%
+    filter(cell_lines == cell_line) %>%
+    column_to_rownames("sample_names")
+    
+  cnt_mat <- count_data_mat[, rownames(smpl_sheet)]
+
+  dds <- DESeqDataSetFromMatrix(countData = cnt_mat, 
+                                colData = smpl_sheet, 
+                                design = ~timepoints)
+  dds <- DESeq(dds)
+  if (cell_line == "PC3-AR") {
+
+    res <- results(dds, alpha = 0.01, 
+                   contrast = c("timepoints", "12", "0"))
+  } else {
+    res <- results(dds, alpha = 0.01, 
+                   contrast = c("timepoints", "24", "0"))
+  }
+  res %>% 
+    as.data.frame() %>%
+    rownames_to_column("ensembl_gene_id") %>%
+    mutate(cell_line = cell_line)
+}) %>%
+  bind_rows()
+
+padj_threshold <- 0.01
+up_FC_threshold <- 2 #1.5
+down_FC_threshold <- 0.5 #0.67
+filtered_deseq_results <-
+  deseq_results %>%
+  filter(log2FoldChange >= log2(up_FC_threshold) | log2FoldChange <= log2(down_FC_threshold),
+         padj <= padj_threshold) 
+
+summary_up <-
+  filtered_deseq_results %>%
+  filter(log2FoldChange > 0) %>%
+  mutate(present = 1) %>%
+  select(ensembl_gene_id, present, cell_line) %>%
+  spread(cell_line, present, fill = 0) 
+
+summary_down <-
+  filtered_deseq_results %>%
+  filter(log2FoldChange < 0) %>%
+  mutate(present = 1) %>%
+  select(ensembl_gene_id, present, cell_line) %>%
+  spread(cell_line, present, fill = 0)
+
+```
+
+```{r}
+plot(euler(summary_up %>%
+             select(-ensembl_gene_id)), 
+     quantities = TRUE,
+     main = "Upregulated genes")
+```
+
+
+```{r}
+plot(euler(summary_down %>%
+  select(-ensembl_gene_id)), 
+  quantities = TRUE, 
+  main = "Downregulated genes")
+```
+
+# Which genes are commonly upregulated?
+
+
+```{r}
+ensembl <- biomaRt::useMart("ensembl", 
+                            dataset = "hsapiens_gene_ensembl")
+
+ensembl_id_to_name <- biomaRt::getBM(attributes = c("ensembl_gene_id", 
+                                                    "hgnc_symbol"), 
+                                     mart = ensembl)
+
+summary_down %>%
+  left_join(ensembl_id_to_name) %>%
+  filter(`PC3-AR` == 1, LNCaP == 1, VCaP == 1)
+      
+      
+```
+
+Let's visualise some of the genes.
+
+```{r}
+data(geneList)
+gene <- names(geneList)[abs(geneList) > 2]
+```
+
 
